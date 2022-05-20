@@ -1,9 +1,7 @@
-from ast import Load
-from mimetypes import init
 from tkinter import *
 
 root = Tk()
-root.configure(background='blue')
+root.configure(background='aliceblue',padx=300, pady=300)
 
 def store():
     myLabel = Label(root, text = "Store")
