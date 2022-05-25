@@ -22,7 +22,7 @@ btn6 = tk.Label(top_frame, text = "ix_2", fg = "blue",padx=5,pady=10,relief=tk.R
 btn7 = tk.Label(top_frame, text = "ix_2", fg = "blue",padx=5,pady=10,relief=tk.RAISED).pack()
 
 # labels for for PC, MAR, MBR, IR, MFR, Privileged
-btn8 = tk.Label(right_frame, text = "PC", fg = "blue",padx=5,pady=10).pack(side="top")
+btn8 = tk.Label(right_frame, text = "PC", fg = "blue",padx=5,pady=10).pack(side="right")
 btn9 = tk.Label(right_frame, text = "MAR", fg = "blue",padx=5,pady=10).pack(side="right")
 btn10 = tk.Label(right_frame, text = "MBR", fg = "blue",padx=5,pady=10).pack(side="right")
 btn11= tk.Label(right_frame, text = "IR", fg = "blue",padx=5,pady=10).pack(side="right")
