@@ -4,7 +4,7 @@ window = tk.Tk()
 window.configure(background='aliceblue',padx=300, pady=300)
 window.title("Machine Simulator")
 
-# creating frames and aliging them with pack()
+# creating frames and  aligning them with pack()
 top_frame = tk.Frame(window).pack(side = "left")
 bottom_frame = tk.Frame(window).pack(side = "bottom")
 left_frame = tk.Frame(window).pack(side = "left")
@@ -28,8 +28,8 @@ btn10 = tk.Label(right_frame, text = "MBR", fg = "blue",padx=5,pady=10,relief=tk
 btn11= tk.Label(right_frame, text = "IR", fg = "blue",padx=5,pady=10,relief=tk.RAISED).pack(side="right")
 btn12= tk.Label(right_frame, text = "MFR", fg = "blue",padx=5,pady=10,relief=tk.RAISED).pack(side="right")
 btn12= tk.Label(right_frame, text = "Privileged", fg = "blue",padx=5,pady=10,relief=tk.RAISED).pack(side="right")
-# store, load, intialize 
 
+# store, load, intialize 
 def store():
     myLabel = tk.Label(window, text = "Store")
     myLabel.pack()
