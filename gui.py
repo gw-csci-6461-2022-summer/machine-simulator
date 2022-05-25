@@ -28,7 +28,7 @@ btn10 = tk.Label(right_frame, text = "MBR", fg = "blue",padx=5,pady=10).pack(sid
 btn11= tk.Label(right_frame, text = "IR", fg = "blue",padx=5,pady=10).pack(side="right")
 btn12= tk.Label(right_frame, text = "MFR", fg = "blue",padx=5,pady=10).pack(side="right")
 
-# store, load, intialize 
+# store, load, initialize 
 
 def store():
     myLabel = tk.Label(window, text = "Store")
