@@ -7,7 +7,7 @@ window.title("Machine Simulator")
 # creating frames and aliging them with pack()
 top_frame = tk.Frame(window).pack(side = "left")
 bottom_frame = tk.Frame(window).pack(side = "bottom")
-Left_frame = tk.Frame(window).pack(side = "left")
+left_frame = tk.Frame(window).pack(side = "left")
 right_frame = tk.Frame(window).pack(side = "right")
 
 # labels for 4 general purpose registers 
@@ -17,7 +17,7 @@ btn3 = tk.Label(top_frame, text = "gpr_2", fg = "green",padx=5,pady=10,relief=tk
 btn4 = tk.Label(top_frame, text = "gpr_3", fg = "green",padx=5,pady=10,relief=tk.RAISED).pack()
 
 # labels for  3 Index Registers 1-3
-btn5 = tk.Label(top_frame,Left_frame, text = "ix_1", fg = "blue",padx=5,pady=10,relief=tk.RAISED).pack() 
+btn5 = tk.Label(top_frame, left_frame, text = "ix_1", fg = "blue",padx=5,pady=10,relief=tk.RAISED).pack() 
 btn6 = tk.Label(top_frame, text = "ix_2", fg = "blue",padx=5,pady=10,relief=tk.RAISED).pack()
 btn7 = tk.Label(top_frame, text = "ix_2", fg = "blue",padx=5,pady=10,relief=tk.RAISED).pack()
 
