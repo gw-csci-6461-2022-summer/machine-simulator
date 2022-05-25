@@ -4,7 +4,7 @@ window = tk.Tk()
 window.configure(background='aliceblue',padx=300, pady=300)
 window.title("Machine Simulator")
 
-# creating frames and aliging them with pack()
+# creating frames and aligning them with pack()
 top_frame = tk.Frame(window).pack(side = "left")
 bottom_frame = tk.Frame(window).pack(side = "bottom")
 left_frame = tk.Frame(window).pack(side = "left")
