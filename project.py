@@ -1,0 +1,141 @@
+from re import T
+from xml.dom.minidom import Element
+import PySimpleGUI as sg
+
+sg.theme('DarkAmber')   # Add a touch of color
+
+# Radio button format
+
+
+# General Purpose Registers
+layout = [  [sg.Text('General Purpose Registers')],
+            [sg.T(), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-")],
+             [sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-")],
+             [sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-")],
+            
+#Index Registers
+            [sg.Text('Index Registers')],
+            [sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-")],
+             [sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-")],
+             [sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-")],
+            
+            
+            [sg.Button('init'), sg.Button('str+'), sg.Button('str+')],
+            [sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-"),
+             sg.T(""), sg.Checkbox("", default=False, key="-IN-")]
+] 
+
+# Create the Window
+window = sg.Window('Project 1', layout)
+# Event Loop to process "events" and get the "values" of the inputs
+while True:
+    event, values = window.read()
+    if event == sg.WIN_CLOSED or event == 'Cancel': # if user closes window or clicks cancel
+        break
+    print('You entered ', values[0])
+
+window.close()
