@@ -18,7 +18,7 @@ registersGPRFrame.grid_columnconfigure(4, weight=1, minsize=50)
 # creating labels for 4 general purpose registers 
 btn1 = tk.Label(registersGPRFrame, text = "GPR 0", fg = "green",padx=5,pady=5,relief=tk.RAISED)
 btn1.grid(row=0,column=0)
-gpr0 = [16]
+gpr0 = []
 for i in range (1,17):
   gpr0.append(IntVar())
   tk.Checkbutton(registersGPRFrame, text='', variable=gpr0[i-1]).grid(row=0,column=i)
@@ -26,7 +26,7 @@ gpr0_LD = tk.Button(registersGPRFrame, text = "LD", fg = "green",padx=5,pady=5,r
 
 btn2 = tk.Label(registersGPRFrame, text = "GPR 1", fg = "green",padx=5,pady=5,relief=tk.RAISED)
 btn2.grid(row=1,column=0)
-gpr1 = [16]
+gpr1 = []
 for i in range (1,17):
   gpr1.append(IntVar())
   tk.Checkbutton(registersGPRFrame, text='', variable=gpr1[i-1]).grid(row=1,column=i)
@@ -34,7 +34,7 @@ gpr1_LD = tk.Button(registersGPRFrame, text = "LD", fg = "green",padx=5,pady=5,r
 
 btn3 = tk.Label(registersGPRFrame, text = "GPR 2", fg = "green",padx=5,pady=5,relief=tk.RAISED)
 btn3.grid(row=2,column=0)
-gpr2 = [16]
+gpr2 = []
 for i in range (1,17):
   gpr2.append(IntVar())
   tk.Checkbutton(registersGPRFrame, text='', variable=gpr2[i-1]).grid(row=2,column=i)
@@ -42,7 +42,7 @@ gpr2_LD = tk.Button(registersGPRFrame, text = "LD", fg = "green",padx=5,pady=5,r
 
 btn4 = tk.Label(registersGPRFrame, text = "GPR 3", fg = "green",padx=5,pady=5,relief=tk.RAISED)
 btn4.grid(row=3,column=0)
-gpr3 = [16]
+gpr3 = []
 for i in range (1,17):
   gpr3.append(IntVar())
   tk.Checkbutton(registersGPRFrame, text='', variable=gpr3[i-1]).grid(row=3,column=i)
@@ -58,7 +58,7 @@ indexFrame.grid_columnconfigure(4, weight=1, minsize=50)
 #labels for  3 Index Registers 1-3
 btn5 = tk.Label(indexFrame , text = "IXR 1", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
 btn5.grid(row=5,column=0)
-ixr1 = [16]
+ixr1 = []
 for i in range (1,17):
   ixr1.append(IntVar())
   tk.Checkbutton(indexFrame, text='', variable=ixr1[i-1]).grid(row=5,column=i)
@@ -66,7 +66,7 @@ ixr1_LD = tk.Button(indexFrame, text = "LD", fg = "green",padx=5,pady=5,relief=t
 
 btn6 = tk.Label(indexFrame , text = "IXR 2", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
 btn6.grid(row=6,column=0)
-ixr2 = [16]
+ixr2 = []
 for i in range (1,17):
   ixr2.append(IntVar())
   tk.Checkbutton(indexFrame, text='', variable=ixr2[i-1]).grid(row=6,column=i)
@@ -74,7 +74,7 @@ ixr2_LD = tk.Button(indexFrame, text = "LD", fg = "green",padx=5,pady=5,relief=t
 
 btn7 = tk.Label(indexFrame , text = "IXR 3", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
 btn7.grid(row=7,column=0)
-ixr3 = [16]
+ixr3 = []
 for i in range (1,17):
   ixr3.append(IntVar())
   tk.Checkbutton(indexFrame, text='', variable=ixr3[i-1]).grid(row=7,column=i)
