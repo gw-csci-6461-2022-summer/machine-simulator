@@ -5,6 +5,8 @@ from tkinter import filedialog
 def UploadFile(event=None):
     filename = filedialog.askopenfilename()
     print('Selected:', filename)
+    
+    # TODO : here we call functions to parse the file and init the machine
 
 window = tk.Tk()
 window.configure(background='#97ecf7')
@@ -143,5 +145,3 @@ load_btn = tk.Button(buttonFrame, text = "Load", fg = "green",padx=8,pady=8,reli
 init_btn = tk.Button(buttonFrame, text = "Init", fg = "red",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=UploadFile).grid(row=20,column=3)
 
 window.mainloop()
-
-
