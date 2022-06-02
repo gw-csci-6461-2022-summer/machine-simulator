@@ -6,7 +6,6 @@ class mar(Register):
     def __init_(self,register_name,register_size,value):
         super().__init__('mar',12,value)
 
-
     def get_pc_value(self,incremented_pc : pc):
         self.set_value(incremented_pc.get_value())
 
