@@ -8,18 +8,6 @@ class gpr(Register):
 
     def get_gpr_number(self):
         return self.gpr_number
-        
-
-# testing - TO BE removed after
-testgpr= gpr('gpr',16,1,3)
-# print(help(gpr))
-print('The name:', testgpr.get_register_name())
-print('The size:', testgpr.get_register_size())
-print('The value:', testgpr.get_value())
-print('The value:', testgpr.get_gpr_number())
-
-
-
 
 
 
