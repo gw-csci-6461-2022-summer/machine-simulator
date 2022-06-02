@@ -1,12 +1,19 @@
 from tkinter import *
 import tkinter as tk
 from tkinter import filedialog 
+from cpu import CPU
+import sys
+sys.path.insert(0, './memory')
+from memory import Memory 
+
+# make instance of CPU
+cpu = CPU()
 
 def UploadFile(event=None):
     filename = filedialog.askopenfilename()
     print('Selected:', filename)
     
-    # TODO : here we call functions to parse the file and init the machine
+    CPU.load_program(cpu, filename)
 
 window = tk.Tk()
 window.configure(background='#97ecf7')
@@ -144,4 +151,10 @@ store_plus_btn = tk.Button(buttonFrame, text = "Store+", fg = "green",padx=8,pad
 load_btn = tk.Button(buttonFrame, text = "Load", fg = "green",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=20,column=2)
 init_btn = tk.Button(buttonFrame, text = "Init", fg = "red",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=UploadFile).grid(row=20,column=3)
 
+# TODO: add checkboxes for instruction 
+# TODO: add button for "Run" which calls function CPU.run_program()
+# TODO: add button for "Step" which calls function CPU.step_through()
+
 window.mainloop()
+
+# TODO: on running of GUI, init a CPU

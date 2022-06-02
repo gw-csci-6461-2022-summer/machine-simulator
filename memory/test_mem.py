@@ -1,7 +1,7 @@
-import memory
+from memory import Memory
 
 # testing mem functions 
-test_memory = memory.Memory(20)
+test_memory = Memory(20)
 
 print("memory size: " + str(test_memory.get_memory_size()))
 print("mem value: " + str(test_memory.get_memory_value(8))) # should be 0
