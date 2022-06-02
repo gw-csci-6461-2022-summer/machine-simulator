@@ -18,7 +18,6 @@ class CPU:
         self.current_execution_line = 0
         
     def load_program(self,filename):
-        # TODO: parse input txt file and load instructions into memory 
         # default: load input program beginning at mem location ____ TODO: decide where we want to load into mem, using a random number now
         file = open(filename, 'r')
         Lines = file.readlines()
@@ -52,6 +51,7 @@ class CPU:
             self.current_execution_line = 0
         
         # TODO: calls for executing instruction in memory
+        # we will be executing our hard coded beginning of program + offset of self.current_execution_line
         return 
     
     # "run" button clicked, run through entire program 
