@@ -1,21 +1,16 @@
+from dis import Instruction
 from tkinter import *
 import tkinter as tk
-from tkinter import filedialog 
-from cpu import CPU
-import sys
-sys.path.insert(0, './memory')
-from memory import Memory 
-
-# make instance of CPU
-cpu = CPU()
+from tkinter import filedialog
+from tkinter.ttk import Separator 
 
 def UploadFile(event=None):
     filename = filedialog.askopenfilename()
     print('Selected:', filename)
     
-    CPU.load_program(cpu, filename)
+    # TODO : here we call functions to parse the file and init the machine
 
-window = tk.Tk()
+window = Tk()
 window.configure(background='#97ecf7')
 window.title("Machine Simulator")
 
@@ -143,7 +138,7 @@ priv_1 = tk.Checkbutton(otherFrame, text='', bg="#97ecf7").grid(row=6,column=34)
 
 # creating frame for Store, St+, Load, and Init buttons 
 buttonFrame = tk.Frame(window, bg="#97ecf7")
-buttonFrame.grid(row=0,column=4)
+buttonFrame.grid(row=4,column=4)
 buttonFrame.grid_columnconfigure(4, weight=7, minsize=100)
 
 store_btn = tk.Button(buttonFrame, text = "Store", fg = "green",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=20,column=0)
@@ -151,10 +146,37 @@ store_plus_btn = tk.Button(buttonFrame, text = "Store+", fg = "green",padx=8,pad
 load_btn = tk.Button(buttonFrame, text = "Load", fg = "green",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=20,column=2)
 init_btn = tk.Button(buttonFrame, text = "Init", fg = "red",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=UploadFile).grid(row=20,column=3)
 
-# TODO: add checkboxes for instruction 
-# TODO: add button for "Run" which calls function CPU.run_program()
-# TODO: add button for "Step" which calls function CPU.step_through()
-# TODO: function for "LD" buttons
+InstructionFrame = tk.Frame(window, bg="#97ecf7")
+InstructionFrame.grid(row=5,column=0)
+def colorChange(button):
+  if str(buttons[button].cget("bg")) == "blue":
+    buttons[button].config(bg="#97ecf7")
+  else:
+    buttons[button].config(bg="blue")
+buttons = []
+btn_no = -1
+for i in range (0,16):
+  btn_no += 1
+  buttons.append(tk.Button(InstructionFrame, text=(-1)*(btn_no-15), bg="#97ecf7", command= lambda x=btn_no: colorChange(x)))
+  buttons[btn_no].grid(row=5,column=i, padx=5, pady=30)
+  
+Separator(InstructionFrame, orient=VERTICAL).place(relx=0.42, rely=0, relwidth=0.001, relheight=1)
+Separator(InstructionFrame, orient=VERTICAL).place(relx=0.538, rely=0, relwidth=0.001, relheight=1)
+Separator(InstructionFrame, orient=VERTICAL).place(relx=0.653, rely=0, relwidth=0.001, relheight=1)
+Separator(InstructionFrame, orient=VERTICAL).place(relx=0.71, rely=0, relwidth=0.001, relheight=1)
+
+Label(InstructionFrame, text = "Operation", justify="right").place(relx = 0.21, rely = 0.1, anchor = 'center')
+Label(InstructionFrame, text = "GPR", justify="right").place(relx = 0.48, rely = 0.1, anchor = 'center')
+Label(InstructionFrame, text = "IXR", justify="right").place(relx = 0.6, rely = 0.1, anchor = 'center')
+Label(InstructionFrame, text = "I", justify="right").place(relx = 0.68, rely = 0.1, anchor = 'center')
+Label(InstructionFrame, text = "Address", justify="right").place(relx = 0.85, rely = 0.1, anchor = 'center')
+
+runFrame = tk.Frame(window, bg="#97ecf7")
+runFrame.grid(row=4,column=1)
+SS_btn = tk.Button(runFrame, text = "SS", fg = "black",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=0,column=0)
+Run_btn = tk.Button(runFrame, text = "Run", fg = "black",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=0,column=1)
+Halt_ck = tk.Checkbutton(runFrame, text='Halt', bg="#97ecf7").grid(row=0,column=2)
+Run_ck = tk.Checkbutton(runFrame, text='Run', bg="#97ecf7").grid(row=1,column=2)
 
 window.mainloop()
 
