@@ -44,6 +44,11 @@ class CPU:
         
     # "step" button clicked, step to next line of program and execute it 
     def step_through(self):
+        # no program loaded to execute, give error message 
+        if not self.is_loaded:
+            # TODO: throw error message in GUI
+            return
+        
         self.current_execution_line += 1
         
         # if we've reached the last instruction from the input program, reset back to beginning

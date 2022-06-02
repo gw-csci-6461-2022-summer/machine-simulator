@@ -154,7 +154,7 @@ init_btn = tk.Button(buttonFrame, text = "Init", fg = "red",padx=8,pady=8,relief
 # TODO: add checkboxes for instruction 
 # TODO: add button for "Run" which calls function CPU.run_program()
 # TODO: add button for "Step" which calls function CPU.step_through()
+# TODO: function for "LD" buttons
 
 window.mainloop()
 
-# TODO: on running of GUI, init a CPU
