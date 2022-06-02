@@ -146,18 +146,18 @@ store_plus_btn = tk.Button(buttonFrame, text = "Store+", fg = "green",padx=8,pad
 load_btn = tk.Button(buttonFrame, text = "Load", fg = "green",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=20,column=2)
 init_btn = tk.Button(buttonFrame, text = "Init", fg = "red",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=UploadFile).grid(row=20,column=3)
 
-InstructionFrame = tk.Frame(window, bg="light blue")
+InstructionFrame = tk.Frame(window, bg="#97ecf7")
 InstructionFrame.grid(row=5,column=0)
 def colorChange(button):
   if str(buttons[button].cget("bg")) == "blue":
-    buttons[button].config(bg="light blue")
+    buttons[button].config(bg="#97ecf7")
   else:
     buttons[button].config(bg="blue")
 buttons = []
 btn_no = -1
 for i in range (0,16):
   btn_no += 1
-  buttons.append(tk.Button(InstructionFrame, text=(-1)*(btn_no-15), bg="light blue", command= lambda x=btn_no: colorChange(x)))
+  buttons.append(tk.Button(InstructionFrame, text=(-1)*(btn_no-15), bg="#97ecf7", command= lambda x=btn_no: colorChange(x)))
   buttons[btn_no].grid(row=5,column=i, padx=5, pady=30)
   
 Separator(InstructionFrame, orient=VERTICAL).place(relx=0.42, rely=0, relwidth=0.001, relheight=1)
@@ -173,8 +173,8 @@ Label(InstructionFrame, text = "Address", justify="right").place(relx = 0.85, re
 
 runFrame = tk.Frame(window, bg="#97ecf7")
 runFrame.grid(row=4,column=1)
-SS_btn = tk.Button(runFrame, text = "SS", fg = "black",padx=8,pady=8,relief=tk.RAISED, bg="light blue").grid(row=0,column=0)
-Run_btn = tk.Button(runFrame, text = "Run", fg = "black",padx=8,pady=8,relief=tk.RAISED, bg="light blue").grid(row=0,column=1)
+SS_btn = tk.Button(runFrame, text = "SS", fg = "black",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=0,column=0)
+Run_btn = tk.Button(runFrame, text = "Run", fg = "black",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=0,column=1)
 Halt_ck = tk.Checkbutton(runFrame, text='Halt', bg="#97ecf7").grid(row=0,column=2)
 Run_ck = tk.Checkbutton(runFrame, text='Run', bg="#97ecf7").grid(row=1,column=2)
 
