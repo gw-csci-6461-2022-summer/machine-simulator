@@ -67,7 +67,7 @@ class CPU:
             return
         
         else:
-            for i in range(self.total_program_lines):
+            for i in range(self.total_program_lines - self.current_execution_line):
                 step_through(self)
         
         # return current line to beginning of program so we can run again 
