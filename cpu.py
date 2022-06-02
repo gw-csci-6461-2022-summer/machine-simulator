@@ -10,6 +10,7 @@ from Registers.mar import mar
 from Registers.gpr import gpr 
 from Registers.mbr import mbr 
 from Registers.mfr import mfr
+from Registers.instructionRegister import instructionregsiter
 
 
 class CPU:
@@ -27,6 +28,7 @@ class CPU:
         self.mar= mar('mar',12,0)
         self.mbr= mbr('mbr',4,0)
         self.mfr = mfr('mfr',4,0)
+        self.ir = instructionregsiter('ixr',16,0)
        
         # initialize memory with 2048 words
         self.memory = Memory(2048)
