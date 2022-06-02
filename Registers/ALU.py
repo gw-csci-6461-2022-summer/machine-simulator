@@ -2,12 +2,12 @@ from TemplateRegister import Register
 
 class ALU:
   def __init__(self, cc):
-    self.irr = Register("register", 16, '0'*16)
+    self.irr = Register("Y", 16, '0'*16)
     self.value = 0
     self.cc = cc
 
   def reset(self):
-    self.irr = Register("register", 16, '0'*16)
+    self.irr = Register("Y", 16, '0'*16)
     self.value = 0
   
   def arithmetic_cal(self, operation: str, o1: str, o2: str):
@@ -26,6 +26,7 @@ class ALU:
         self.value = int(o1_value / o2_value)
     elif operation == '%':
         self.value = o1_value % o2_value
+    self.irr.set_value(self.value)
     return self.irr.value
     
     
