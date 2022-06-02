@@ -1,8 +1,10 @@
 from TemplateRegister import Register
+from indexRegister import indexRegister
 from pc import pc
 from mar import mar
 from gpr import gpr 
-from indexRegister import indexRegister
+from mbr import mbr 
+from mfr import mfr
 
 # testing gpr 
 testgpr= gpr('gpr',16,1,3)
@@ -33,4 +35,16 @@ print('The size:', testmar.get_register_size())
 print('The value:', testmar .get_value())
 testmar.get_pc_value(testpc)
 print('The value from pc :', testmar.get_pc_value(testpc))
+
+# testing mbr 
+testmbr = mbr('mbr',4,10)
+print('The name:', testmbr.get_register_name())
+print('The size:', testmbr.get_register_size())
+print('The value:', testmbr .get_value())
+
+# testing mfr 
+testmfr = mfr('mfr',4,12)
+print('The name:', testmfr.get_register_name())
+print('The size:', testmfr.get_register_size())
+print('The value:', testmfr.get_value())
 
