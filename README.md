@@ -1,6 +1,6 @@
-# csci 6461 computer system architecture machine simulator
+# Machine Simulator
 
-# Executable
+## Executable
 make executable 
 ```
 py setup.py py2exe
@@ -10,9 +10,9 @@ run executable
 .\dist\machine-simulator.exe
 ```
 
-# Design
+## Design
 
-## Arithmatic Logic Unit (ALU)
+### Arithmatic Logic Unit (ALU)
 arithmetic_unit  
 logic_unit  
 
@@ -21,14 +21,14 @@ sub_value()
 add_imm()  
 sub_imm()  
 
-## Assembler
+### Assembler
 value  
 
 convert_to_binary(String)  
 get_value():value  
 set_value(value)  
 
-## Central Processing Unit (CPU)
+### Central Processing Unit (CPU)
 Memory  
 PC  
 CC  
@@ -48,7 +48,7 @@ load()
 store()   
 step()  
 
-## Memory
+### Memory
 words: int [ ]  
 size
 
