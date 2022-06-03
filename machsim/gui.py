@@ -10,16 +10,6 @@ from cpu import CPU
 sys.path.insert(0, './memory')
 from memory import Memory 
 
-
-# make instance of CPU
-cpu = CPU()
-def UploadFile(event=None):
-    filename = filedialog.askopenfilename()
-    print('Selected:', filename)
-    
-    # TODO : here we call functions to parse the file and init the machine
-    CPU.load_program(cpu, filename)
-
 window = Tk()
 window.configure(background='#97ecf7')
 window.title("Machine Simulator")
