@@ -5,10 +5,10 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter.ttk import Separator 
 
-from cpu import CPU
+#from cpu import CPU
 
 sys.path.insert(0, './memory')
-from memory import Memory 
+#from memory import Memory 
 
 window = Tk()
 window.configure(background='#97ecf7')
@@ -175,7 +175,7 @@ buttonFrame.grid_columnconfigure(4, weight=7, minsize=100)
 store_btn = tk.Button(buttonFrame, text = "Store", fg = "green",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=20,column=0)
 store_plus_btn = tk.Button(buttonFrame, text = "Store+", fg = "green",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=20,column=1)
 load_btn = tk.Button(buttonFrame, text = "Load", fg = "green",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=20,column=2)
-init_btn = tk.Button(buttonFrame, text = "Init", fg = "red",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=UploadFile).grid(row=20,column=3)
+#init_btn = tk.Button(buttonFrame, text = "Init", fg = "red",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=UploadFile).grid(row=20,column=3)
 
 # creating Instruction Buttons
 InstructionFrame = tk.Frame(window, bg="#97ecf7")

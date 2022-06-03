@@ -1,8 +1,8 @@
 import sys
 sys.path.insert(0, './memory')
 sys.path.insert(0, './Registers')
-from memory import Memory 
-import helper_functions
+#from memory import Memory 
+from helper_functions import *
 from Registers.TemplateRegister import Register
 from Registers.indexRegister import indexRegister
 from Registers.pc import pc
@@ -42,12 +42,14 @@ class CPU:
         
     def load_program(self,filename):
         # default: load input program beginning at mem location ____ TODO: decide where we want to load into mem, using a random number now
+        ram_mem = {}
         file = open(filename, 'r')
         Lines = file.readlines()
         
         for line in Lines:
             self.total_program_lines += 1
             line = line.split()
+
             print("storing {} at {}".format(line[1], line[0]))
             
             location = helper_functions.hex_to_decimal(line[0])

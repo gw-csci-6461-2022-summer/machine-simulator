@@ -11,7 +11,7 @@ def hex_to_decimal(value):
 def print_memory_contents(Memory):
     for i in range(Memory.get_memory_size()):
         val = Memory.get_memory_value(i)
-        if val is not 0:
+        if val != 0:
             print("Memory location {} has value {}".format(i,val))
     return
 
