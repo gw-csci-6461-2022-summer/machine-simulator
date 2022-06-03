@@ -1,21 +1,14 @@
+import tkinter as tk
+import sys
 from dis import Instruction
 from tkinter import *
-import tkinter as tk
 from tkinter import filedialog
 from tkinter.ttk import Separator 
+
 from cpu import CPU
-import sys
+
 sys.path.insert(0, './memory')
 from memory import Memory 
-
-# make instance of CPU
-cpu = CPU()
-def UploadFile(event=None):
-    filename = filedialog.askopenfilename()
-    print('Selected:', filename)
-    
-    # TODO : here we call functions to parse the file and init the machine
-    CPU.load_program(cpu, filename)
 
 window = Tk()
 window.configure(background='#97ecf7')
