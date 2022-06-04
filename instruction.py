@@ -4,7 +4,12 @@
 3-  use setters to set the values that are read in object instruction 
 4 - use getters the read value form object instruction '''
 
-from bdb import effective
+import sys
+sys.path.insert(0, './memory')
+sys.path.insert(0, './Registers')
+import helper_functions
+from Registers.indexRegister import indexRegister
+from Registers.mar import mar
 
 
 class Instruction:
@@ -67,22 +72,26 @@ class Instruction:
             return 2
 
     # load instruction 
-    def load (self) :
-        index = self.get_index_ixr()
+    def load (self, ixr: indexRegister, marReg: mar) :
+        index = ixr.get_ixr_number()
+        address = helper_functions.binary_to_decimal(self.address)
         print('index:', index)
         effective_address = 0
         # no indirect addressing 
-        if (self.indirect_addressing == 0 ) :
+        if (self.indirect_addressing == '0') :
             # no indexing
             if index == 0:
                 # the effective address is the address itself
-                effective_address = self.address
+                effective_address = address
+                print("EA where index is 0 is " + str(effective_address))
             # there is indexing
             elif index > 0 and index < 4:
                 # calculate the effective address
                 # change the ixr in cpu
                 # TODO check again this logic. I need to access data [indexRegister][self.get_index_ixr].value()
-                effective_address = binary_to_decimal(self.address) + index 
+                print(ixr.get_value())
+                effective_address = address + ixr.get_value() 
+                print("EA is " + str(effective_address))
                 
         # indirect addressing
         else :
@@ -90,13 +99,16 @@ class Instruction:
             if index == 0:
                 # check memory 
                 # mar.set_value(InstructionRegister.get_value)
-                effective_address = self.address
+                effective_address = address
+                marReg.set_value(address)
             # there is indexing
             elif index > 0 and index < 4:
                 # calculate the effective address
                 # TODO check again this logic. I need to access data [indexRegister][self.get_index_ixr].value()
-                effective_address = self.address + self.get_index_ixr()
-            return effective_address
+                effective_address = address + ixr.get_value()
+                marReg.set_value(address + ixr.get_value())
+                print("EA is " + str(effective_address))
+        return effective_address
 
 
 
