@@ -8,9 +8,10 @@ import sys
 sys.path.insert(0, './memory')
 sys.path.insert(0, './Registers')
 import helper_functions
+from memory import Memory
+import cpu
 from Registers.indexRegister import indexRegister
 from Registers.mar import mar
-
 
 class Instruction:
     # ctor
@@ -72,7 +73,8 @@ class Instruction:
             return 2
 
     # load instruction 
-    def load (self, ixr: indexRegister, marReg: mar) :
+    def load (self, ixr: indexRegister, marReg: mar, mem: Memory) :
+        mem.get_memory_value()
         index = ixr.get_ixr_number()
         address = helper_functions.binary_to_decimal(self.address)
         print('index:', index)
