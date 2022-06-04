@@ -6,5 +6,9 @@ class instructionregsiter(Register):
     def __init__(self,register_name,register_size,value):
         super().__init__('ir',16,value)
 
-    def get_value_from_MBR(self, mbr : mbr):
+    def get_instruction_from_mbr(self, mbr : mbr):
         self.value = mbr.value
+    
+    # ixr store instruction that needs to be read
+    def get_instruction(self):
+        return self.value
