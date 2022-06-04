@@ -65,10 +65,6 @@ class CPU:
     def step_through(self):
         print("stepping")
         
-        # reset pc if we're at end
-        if self.pc.get_value() == 2047:
-            self.pc.set_value(0)
-        
         # copy address from PC to MAR
         self.mar.set_value(self.pc.get_value())
         print(self.pc.get_value())
@@ -83,7 +79,6 @@ class CPU:
         self.ir.set_value(helper_functions.decimal_to_bit_array_unsigned(self.mbr.get_value(),16))
         
         # decode 
-        # 000000 00 01 0 01111
         inst = Instruction()
         inst.instruction_value = self.ir.get_value()
         inst.split_instruction()
@@ -98,13 +93,15 @@ class CPU:
         print('converted gpr',int(index_gpr, base=2))
         inst.decoding_instruction()
         
+        # reset pc if we're at end
+        if self.pc.get_value() == ++self.memory.get_memory_size():
+            self.pc.set_value(0)
+        
         return 
     
     # "run" button clicked, run through entire program 
     def run_program(self): 
         for i in range(self.pc.get_value(), self.memory.get_memory_size()):
             self.step_through()
-        
-        # return current line to beginning of program so we can run again 
-        # self.pc.set_value(0)
+            
         return
