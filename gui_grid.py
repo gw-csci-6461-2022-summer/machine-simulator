@@ -326,7 +326,7 @@ Label(InstructionFrame, text = "Address", justify="right").place(relx = 0.85, re
 # SS button, Run button, Halt checkbutton and Run checkbutton created
 runFrame = tk.Frame(window, bg="#97ecf7")
 runFrame.grid(row=4,column=1)
-SS_btn = tk.Button(runFrame, text = "SS", fg = "black",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=0,column=0)
+SS_btn = tk.Button(runFrame, text = "SS", fg = "black",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=lambda:CPU.step_through(cpu)).grid(row=0,column=0)
 Run_btn = tk.Button(runFrame, text = "Run", fg = "black",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=0,column=1)
 Halt_ck = tk.Checkbutton(runFrame, text='Halt', bg="#97ecf7").grid(row=0,column=2)
 Run_ck = tk.Checkbutton(runFrame, text='Run', bg="#97ecf7").grid(row=1,column=2)
