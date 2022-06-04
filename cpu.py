@@ -59,27 +59,15 @@ class CPU:
     
         file.close()
         
-        # init line of input program that we are currently executing
-        self.current_execution_line = 0
-        
-        # set flag that we have a valid loaded program ready to execute
-        self.is_loaded = 1
-        
         helper_functions.print_memory_contents(self.memory)
         
     # "step" button clicked, step to next line of program and execute it 
     def step_through(self):
         print("stepping")
-        # no program loaded to execute, give error message 
-        if not self.is_loaded:
-            # TODO: throw error message in GUI
-            return
         
-        # self.current_execution_line += 1
-        
-        # # if we've reached the last instruction from the input program, reset back to beginning
-        # if self.current_execution_line == self.total_program_lines:
-        #     self.current_execution_line = 0
+        # reset pc if we're at end
+        if self.pc.get_value() == 2047:
+            self.pc.set_value(0)
         
         # copy address from PC to MAR
         self.mar.set_value(self.pc.get_value())
@@ -114,15 +102,9 @@ class CPU:
     
     # "run" button clicked, run through entire program 
     def run_program(self): 
-        # no program loaded to execute, give error message 
-        if not self.is_loaded:
-            # TODO: throw error message in GUI
-            return
-        
-        else:
-            for i in range(self.memory.get_memory_size()):
-                step_through(self)
+        for i in range(self.pc.get_value(), self.memory.get_memory_size()):
+            self.step_through()
         
         # return current line to beginning of program so we can run again 
-        self.current_execution_line = 0
+        # self.pc.set_value(0)
         return
