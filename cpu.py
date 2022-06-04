@@ -28,7 +28,7 @@ class CPU:
         self.mar= mar('mar',12,0)
         self.mbr= mbr('mbr',4,0)
         self.mfr = mfr('mfr',4,0)
-        self.ir = instructionregsiter('ixr',16,0)
+        self.ir = instructionregsiter('ir',16,0)
        
         # initialize memory with 2048 words
         self.memory = Memory(2048)
