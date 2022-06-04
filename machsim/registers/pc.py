@@ -1,13 +1,15 @@
-from TemplateRegister import Register
+# from cgi import test
+from control_unit import ControlUnit
 
 # creating a Pc class for progran counter register. Pc class is a child of TemplateRegister
 # value is the address memory of the next instruction that will be executed 
-class pc(Register):
-    def __init__(self,register_name,register_size,value):
-        super().__init__('pc',12,value)
-
+class pc(ControlUnit):
+    def __init__(self, test_file):
+        super().__init__(test_file)
+        self.value = None
+        
     def increment_pc(self):
-        self.value = (self.get_value() + 1)
-        return self.value
-
-
+        if self.value == None:
+            self.value = 0
+        else:
+            self.value = self.value + 1
