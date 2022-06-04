@@ -20,80 +20,101 @@ def UploadFile(event=None):
   
 # on "LD" button click, load GPR0 with input value
 def ld_gpr0(value):
-      bit_arr = []
-      for i in range(len(value)):
-            if value[i].get() == 1:
-                  bit_arr.append(1)
-            else:
-                  bit_arr.append(0)
-      cpu.gpr0.set_value(bit_arr)
-      print("Loaded GPR0: {}".format(cpu.gpr0.get_value()))
+    bits = ""
+    for i in range(0, 16):
+      if str(buttons[i].cget("bg")) == "blue":
+        colorChange(i)
+        bits += '1'
+      else:
+        bits += '0'
+        
+    cpu.gpr0.set_value(bits)
+    bitToCheckbox(gpr0, bits)
+    print("Loaded GPR0: {}".format(cpu.gpr0.get_value()))
 
 # on "LD" button click, load GPR1 with input value
 def ld_gpr1(value):
-      bit_arr = []
-      for i in range(len(value)):
-            if value[i].get() == 1:
-                  bit_arr.append(1)
-            else:
-                  bit_arr.append(0)
-      cpu.gpr1.set_value(bit_arr)
-      print("Loaded GPR1: {}".format(cpu.gpr1.get_value()))
+    bits = ""
+    for i in range(0, 16):
+      if str(buttons[i].cget("bg")) == "blue":
+        colorChange(i)
+        bits += '1'
+      else:
+        bits += '0'
+        
+    cpu.gpr1.set_value(bits)
+    bitToCheckbox(gpr1, bits)
+    print("Loaded GPR1: {}".format(cpu.gpr1.get_value()))
 
 # on "LD" button click, load GPR2 with input value
 def ld_gpr2(value):
-      bit_arr = []
-      for i in range(len(value)):
-            if value[i].get() == 1:
-                  bit_arr.append(1)
-            else:
-                  bit_arr.append(0)
-      cpu.gpr2.set_value(bit_arr)
-      print("Loaded GPR2: {}".format(cpu.gpr2.get_value()))
+    bits = ""
+    for i in range(0, 16):
+      if str(buttons[i].cget("bg")) == "blue":
+        colorChange(i)
+        bits += '1'
+      else:
+        bits += '0'
+        
+    cpu.gpr2.set_value(bits)
+    bitToCheckbox(gpr2, bits)
+    print("Loaded GPR2: {}".format(cpu.gpr2.get_value()))
 
 # on "LD" button click, load GPR3 with input value
 def ld_gpr3(value):
-      bit_arr = []
-      for i in range(len(value)):
-            if value[i].get() == 1:
-                  bit_arr.append(1)
-            else:
-                  bit_arr.append(0)
-      cpu.gpr3.set_value(bit_arr)
-      print("Loaded GPR3: {}".format(cpu.gpr3.get_value()))
-
-# on "LD" button click, load IXR0 with input value
-def ld_ixr0(value):
-      bit_arr = []
-      for i in range(len(value)):
-            if value[i].get() == 1:
-                  bit_arr.append(1)
-            else:
-                  bit_arr.append(0)
-      cpu.ixr0.set_value(bit_arr)
-      print("Loaded ixr0: {}".format(cpu.ixr0.get_value()))
+    bits = ""
+    for i in range(0, 16):
+      if str(buttons[i].cget("bg")) == "blue":
+        colorChange(i)
+        bits += '1'
+      else:
+        bits += '0'
+        
+    cpu.gpr3.set_value(bits)
+    bitToCheckbox(gpr3, bits)
+    print("Loaded GPR3: {}".format(cpu.gpr3.get_value()))
 
 # on "LD" button click, load IXR1 with input value
 def ld_ixr1(value):
-      bit_arr = []
-      for i in range(len(value)):
-            if value[i].get() == 1:
-                  bit_arr.append(1)
-            else:
-                  bit_arr.append(0)
-      cpu.ixr1.set_value(bit_arr)
-      print("Loaded ixr1: {}".format(cpu.ixr1.get_value()))
+    bits = ""
+    for i in range(0, 16):
+      if str(buttons[i].cget("bg")) == "blue":
+        colorChange(i)
+        bits += '1'
+      else:
+        bits += '0'
+        
+    cpu.ixr1.set_value(bits)
+    bitToCheckbox(ixr1, bits)
+    print("Loaded ixr1: {}".format(cpu.ixr1.get_value()))
 
-# on "LD" button click, load IXR2 with input value 
+# on "LD" button click, load IXR2 with input value
 def ld_ixr2(value):
-      bit_arr = []
-      for i in range(len(value)):
-            if value[i].get() == 1:
-                  bit_arr.append(1)
-            else:
-                  bit_arr.append(0)
-      cpu.ixr2.set_value(bit_arr)
-      print("Loaded ixr2: {}".format(cpu.ixr2.get_value()))
+    bits = ""
+    for i in range(0, 16):
+      if str(buttons[i].cget("bg")) == "blue":
+        colorChange(i)
+        bits += '1'
+      else:
+        bits += '0'
+        
+    cpu.ixr2.set_value(bits)
+    bitToCheckbox(ixr2, bits)
+    print("Loaded ixr2: {}".format(cpu.ixr2.get_value()))
+
+# on "LD" button click, load IXR3 with input value 
+def ld_ixr3(value):
+    bits = ""
+    for i in range(0, 16):
+      if str(buttons[i].cget("bg")) == "blue":
+        colorChange(i)
+        bits += '1'
+      else:
+        bits += '0'
+        
+    cpu.ixr3.set_value(bits)
+    bitToCheckbox(ixr3, bits)
+    print("Loaded ixr3: {}".format(cpu.ixr3.get_value()))
 
 window = Tk()
 window.configure(background='#97ecf7')
@@ -158,29 +179,29 @@ indexFrame.grid_columnconfigure(1, weight=1, minsize=50)
 indexFrame.grid_columnconfigure(4, weight=1, minsize=50)
 
 #labels for 3 Index Registers IXR 1 - IXR 3
-ixr0_btn = tk.Label(indexFrame , text = "IXR 1", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
-ixr0_btn.grid(row=5,column=0)
-ixr0 = []
-for i in range (1,17):
-  ixr0.append(IntVar())
-  tk.Checkbutton(indexFrame, text='', variable=ixr0[i-1], bg="#97ecf7").grid(row=5,column=i)
-ixr0_LD = tk.Button(indexFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7", command=lambda: ld_ixr0(ixr0)).grid(row=5,column=17)
-
-ixr1_btn = tk.Label(indexFrame , text = "IXR 2", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
-ixr1_btn.grid(row=6,column=0)
+ixr1_btn = tk.Label(indexFrame , text = "IXR 1", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
+ixr1_btn.grid(row=5,column=0)
 ixr1 = []
 for i in range (1,17):
   ixr1.append(IntVar())
-  tk.Checkbutton(indexFrame, text='', variable=ixr1[i-1], bg="#97ecf7").grid(row=6,column=i)
-ixr1_LD = tk.Button(indexFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7", command=lambda: ld_ixr1(ixr1)).grid(row=6,column=17)
+  tk.Checkbutton(indexFrame, text='', variable=ixr1[i-1], bg="#97ecf7").grid(row=5,column=i)
+ixr1_LD = tk.Button(indexFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7", command=lambda: ld_ixr1(ixr1)).grid(row=5,column=17)
 
-ixr2_btn = tk.Label(indexFrame , text = "IXR 3", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
-ixr2_btn.grid(row=7,column=0)
+ixr2_btn = tk.Label(indexFrame , text = "IXR 2", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
+ixr2_btn.grid(row=6,column=0)
 ixr2 = []
 for i in range (1,17):
   ixr2.append(IntVar())
-  tk.Checkbutton(indexFrame, text='', variable=ixr2[i-1], bg="#97ecf7").grid(row=7,column=i)
-ixr2_LD = tk.Button(indexFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7", command=lambda: ld_ixr2(ixr2)).grid(row=7,column=17)
+  tk.Checkbutton(indexFrame, text='', variable=ixr2[i-1], bg="#97ecf7").grid(row=6,column=i)
+ixr2_LD = tk.Button(indexFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7", command=lambda: ld_ixr2(ixr2)).grid(row=6,column=17)
+
+ixr3_btn = tk.Label(indexFrame , text = "IXR 3", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
+ixr3_btn.grid(row=7,column=0)
+ixr3 = []
+for i in range (1,17):
+  ixr3.append(IntVar())
+  tk.Checkbutton(indexFrame, text='', variable=ixr3[i-1], bg="#97ecf7").grid(row=7,column=i)
+ixr3_LD = tk.Button(indexFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7", command=lambda: ld_ixr3(ixr3)).grid(row=7,column=17)
 
 # creating frame for PC, MAR, MBR, IR, MFR, Privileged 
 otherFrame = tk.Frame(window, bg="#97ecf7")
