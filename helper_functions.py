@@ -11,7 +11,7 @@ def hex_to_decimal(value):
 def print_memory_contents(Memory):
     for i in range(Memory.get_memory_size()):
         val = Memory.get_memory_value(i)
-        if val is not 0:
+        if val != 0:
             print("Memory location {} has value {}".format(i,val))
     return
 
@@ -22,7 +22,8 @@ def decimal_to_bit_array_unsigned(value, size):
     # add padding to make it 'size' bits long
     while len(bit_array) < size:
         bit_array.insert(0,0)
-    return bit_array
+    str1 = ''.join(str(e) for e in bit_array)
+    return str1
 
 # convert decimal to bit array of specified size (signed)
 def decimal_to_bit_array_signed(value, size):
