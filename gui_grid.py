@@ -1,4 +1,5 @@
-from dis import Instruction
+# from dis import Instruction
+from decoder.instruction import Instruction
 from tkinter import *
 import tkinter as tk
 from tkinter import filedialog
@@ -129,6 +130,20 @@ def mbrLoad():
     else:
       bits += '0'
   print(bits)
+  inst = Instruction()
+  inst.instruction_value = bits
+  inst.split_instruction()
+  opcode = inst.get_opcode()
+  index_gpr = inst.get_index_gpr()
+  print('opcode:',inst.get_opcode())
+  print('general purpose register:',inst.get_index_gpr())
+  print('index register:',inst.get_index_ixr())
+  print('indirect addressing:',inst.get_indirect_addressing())
+  print('address: ',inst.get_address())
+  print('converted opcode',int(opcode, base=2))
+  print('converted gpr',int(index_gpr, base=2))
+  # print('testing decoding:',opcode.decoding_instruction())
+  inst.decoding_instruction()
   bitToCheckbox(mbr, bits)
 
 # label for for PC, MAR, MBR, IR, MFR, Privileged
