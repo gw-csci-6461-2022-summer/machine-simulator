@@ -40,3 +40,10 @@ def binary_to_decimal(value):
     value = str(value)
     return int(value,2) 
 
+def int_to_bytes(number: int) -> bytes:
+    return number.to_bytes(length=(8 + (number + (number < 0)).bit_length()) // 8, byteorder='big', signed=True)
+
+
+
+
+

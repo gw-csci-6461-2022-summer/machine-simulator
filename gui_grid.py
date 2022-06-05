@@ -1,5 +1,5 @@
 # from dis import Instruction
-from decoder.instruction import Instruction
+from instruction import Instruction
 from tkinter import *
 import tkinter as tk
 from tkinter import filedialog
