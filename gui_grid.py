@@ -8,6 +8,7 @@ from cpu import CPU
 import sys
 sys.path.insert(0, './memory')
 from memory import Memory 
+import helper_functions
 
 # make instance of CPU
 cpu = CPU()
@@ -326,9 +327,27 @@ Label(InstructionFrame, text = "Address", justify="right").place(relx = 0.85, re
 # SS button, Run button, Halt checkbutton and Run checkbutton created
 runFrame = tk.Frame(window, bg="#97ecf7")
 runFrame.grid(row=4,column=1)
-SS_btn = tk.Button(runFrame, text = "SS", fg = "black",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=lambda:CPU.step_through(cpu)).grid(row=0,column=0)
+SS_btn = tk.Button(runFrame, text = "SS", fg = "black",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=lambda:stepCheck()).grid(row=0,column=0)
 Run_btn = tk.Button(runFrame, text = "Run", fg = "black",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=lambda:CPU.run_program(cpu)).grid(row=0,column=1)
 Halt_ck = tk.Checkbutton(runFrame, text='Halt', bg="#97ecf7").grid(row=0,column=2)
 Run_ck = tk.Checkbutton(runFrame, text='Run', bg="#97ecf7").grid(row=1,column=2)
+
+# On step through update checkboxes
+def stepCheck():  
+  bitToCheckbox(gpr0,helper_functions.decimal_to_bit_array_unsigned(cpu.gpr0.get_value(),cpu.gpr0.get_register_size()))
+  bitToCheckbox(gpr1,helper_functions.decimal_to_bit_array_unsigned(cpu.gpr1.get_value(),cpu.gpr1.get_register_size()))
+  bitToCheckbox(gpr2,helper_functions.decimal_to_bit_array_unsigned(cpu.gpr2.get_value(),cpu.gpr2.get_register_size()))
+  bitToCheckbox(gpr3,helper_functions.decimal_to_bit_array_unsigned(cpu.gpr3.get_value(),cpu.gpr3.get_register_size()))
+
+  bitToCheckbox(ixr1,helper_functions.decimal_to_bit_array_unsigned(cpu.ixr1.get_value(),cpu.ixr1.get_register_size()))
+  bitToCheckbox(ixr2,helper_functions.decimal_to_bit_array_unsigned(cpu.ixr2.get_value(),cpu.ixr2.get_register_size()))
+  bitToCheckbox(ixr3,helper_functions.decimal_to_bit_array_unsigned(cpu.ixr3.get_value(),cpu.ixr3.get_register_size()))
+
+  bitToCheckbox(pc,helper_functions.decimal_to_bit_array_unsigned(cpu.pc.get_value(),cpu.pc.get_register_size()))
+  bitToCheckbox(mar,helper_functions.decimal_to_bit_array_unsigned(cpu.mar.get_value(),cpu.mar.get_register_size()))
+  bitToCheckbox(mbr,helper_functions.decimal_to_bit_array_unsigned(cpu.mbr.get_value(),cpu.mbr.get_register_size()))
+  # bitToCheckbox(ir,helper_functions.decimal_to_bit_array_unsigned(cpu.ir.get_value(),cpu.ir.get_register_size()))
+
+  CPU.step_through(cpu)
 
 window.mainloop()
