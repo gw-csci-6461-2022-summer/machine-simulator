@@ -334,19 +334,19 @@ Run_ck = tk.Checkbutton(runFrame, text='Run', bg="#97ecf7").grid(row=1,column=2)
 
 # On step through update checkboxes
 def stepCheck():  
-  bitToCheckbox(gpr0,helper_functions.decimal_to_bit_array_unsigned(cpu.gpr0.get_value(),cpu.gpr0.get_register_size()))
-  bitToCheckbox(gpr1,helper_functions.decimal_to_bit_array_unsigned(cpu.gpr1.get_value(),cpu.gpr1.get_register_size()))
-  bitToCheckbox(gpr2,helper_functions.decimal_to_bit_array_unsigned(cpu.gpr2.get_value(),cpu.gpr2.get_register_size()))
-  bitToCheckbox(gpr3,helper_functions.decimal_to_bit_array_unsigned(cpu.gpr3.get_value(),cpu.gpr3.get_register_size()))
+  bitToCheckbox(gpr0,helper_functions.decimal_to_bit_array_unsigned(int(cpu.gpr0.get_value()),cpu.gpr0.get_register_size()))
+  bitToCheckbox(gpr1,helper_functions.decimal_to_bit_array_unsigned(int(cpu.gpr1.get_value()),cpu.gpr1.get_register_size()))
+  bitToCheckbox(gpr2,helper_functions.decimal_to_bit_array_unsigned(int(cpu.gpr2.get_value()),cpu.gpr2.get_register_size()))
+  bitToCheckbox(gpr3,helper_functions.decimal_to_bit_array_unsigned(int(cpu.gpr3.get_value()),cpu.gpr3.get_register_size()))
 
-  bitToCheckbox(ixr1,helper_functions.decimal_to_bit_array_unsigned(cpu.ixr1.get_value(),cpu.ixr1.get_register_size()))
-  bitToCheckbox(ixr2,helper_functions.decimal_to_bit_array_unsigned(cpu.ixr2.get_value(),cpu.ixr2.get_register_size()))
-  bitToCheckbox(ixr3,helper_functions.decimal_to_bit_array_unsigned(cpu.ixr3.get_value(),cpu.ixr3.get_register_size()))
+  bitToCheckbox(ixr1,helper_functions.decimal_to_bit_array_unsigned(int(cpu.ixr1.get_value()),cpu.ixr1.get_register_size()))
+  bitToCheckbox(ixr2,helper_functions.decimal_to_bit_array_unsigned(int(cpu.ixr2.get_value()),cpu.ixr2.get_register_size()))
+  bitToCheckbox(ixr3,helper_functions.decimal_to_bit_array_unsigned(int(cpu.ixr3.get_value()),cpu.ixr3.get_register_size()))
 
-  bitToCheckbox(pc,helper_functions.decimal_to_bit_array_unsigned(cpu.pc.get_value(),cpu.pc.get_register_size()))
-  bitToCheckbox(mar,helper_functions.decimal_to_bit_array_unsigned(cpu.mar.get_value(),cpu.mar.get_register_size()))
-  bitToCheckbox(mbr,helper_functions.decimal_to_bit_array_unsigned(cpu.mbr.get_value(),cpu.mbr.get_register_size()))
-  # bitToCheckbox(ir,helper_functions.decimal_to_bit_array_unsigned(cpu.ir.get_value(),cpu.ir.get_register_size()))
+  bitToCheckbox(pc,helper_functions.decimal_to_bit_array_unsigned(int(cpu.pc.get_value()),cpu.pc.get_register_size()))
+  bitToCheckbox(mar,helper_functions.decimal_to_bit_array_unsigned(int(cpu.mar.get_value()),cpu.mar.get_register_size()))
+  bitToCheckbox(mbr,helper_functions.decimal_to_bit_array_unsigned(int(cpu.mbr.get_value()),cpu.mbr.get_register_size()))
+  bitToCheckbox(ir,helper_functions.decimal_to_bit_array_unsigned(int(cpu.ir.get_value()),cpu.ir.get_register_size()))
 
   CPU.step_through(cpu)
 
