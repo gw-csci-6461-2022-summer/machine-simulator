@@ -142,6 +142,16 @@ class Instruction:
         # get effective address
         effective_address = self.load()
         print(effective_address)
+        
+        # TODO: check please - is this the rest of logic for load
+        
+        # Write address to MAR
+        self.cpu.mar.set_value(effective_address)
+        
+        # load MBR with value at MAR
+        self.cpu.mbr.set_value(self.memory.get_memory_value(self.cpu.mar.get_value()))
+        
+        # read data from MBR (do we display this anywhere other than MBR?)
         return
 
 
