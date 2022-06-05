@@ -74,12 +74,10 @@ class Instruction:
             # TODO: execute_store()
             return 2
                     
-    
     # load instruction 
     def load (self) :
         # determine which ixr to use
         index = self.get_index_ixr()
-            
         address = helper_functions.binary_to_decimal(self.address)
         print('index:', index)
         effective_address = 0
@@ -94,71 +92,53 @@ class Instruction:
             elif index > 0 and index < 4:
                 # calculate the effective address
                 # change the ixr in cpu
-                # TODO check again this logic. I need to access data [indexRegister][self.get_index_ixr].value()
-                
                 if index == 1:
-                # print(ixr.get_value())
                     value = self.cpu.ixr1.get_value()
                 elif index == 2:
                     value = self.cpu.ixr2.get_value()
                 else:
-                    value = self.cpu.ixr3.get_value()
-                    
+                    value = self.cpu.ixr3.get_value()   
                 effective_address = address + value
                 print("EA is " + str(effective_address))
                 
         # indirect addressing
         else :
-            # indirect_addressing == 1 
+            # case where indirect_addressing == 1 
             if index == 0:
-                # check memory 
-                # mar.set_value(InstructionRegister.get_value)
-                # effective_address = address
-                # marReg.set_value(address)
-                
-                # get fetch memory[address]
                 effective_address = self.memory.get_memory_value(address)
-                
             # there is indexing
             elif index > 0 and index < 4:
                 # calculate the effective address
-                # TODO check again this logic. I need to access data [indexRegister][self.get_index_ixr].value()
-                # effective_address = address + ixr.get_value()
                 if index == 1:
-                    # print(ixr.get_value())
                     value = self.cpu.ixr1.get_value()
                 elif index == 2:
                     value = self.cpu.ixr2.get_value()
                 else:
                     value = self.cpu.ixr3.get_value()
-                
                 # get fetch memory[address]
                 effective_address = self.memory.get_memory_value(address + value)
-                # marReg.set_value(address + ixr.get_value())
                 print("EA is " + str(effective_address))
         return effective_address
     
     def execute_load(self):
         # get effective address
         effective_address = self.load()
-        print(effective_address)
-        
+        print('testing load')
+        print('value of EA :',effective_address)
         # TODO: check please - is this the rest of logic for load
-        
         # Write address to MAR
         self.cpu.mar.set_value(effective_address)
-        
-        # load MBR with value at MAR
+        print('value set in mar',self.cpu.mar.get_value())
+        # read from memory at location equal value at MAR
         self.cpu.mbr.set_value(self.memory.get_memory_value(self.cpu.mar.get_value()))
-        
-        # read data from MBR (do we display this anywhere other than MBR?)
+        print('value read from memory:',self.memory.get_memory_value(self.cpu.mar.get_value()))
+        # TODO : This is needed for caching. read data from MBR (do we display this anywhere other than MBR?)
         return
 
     # store instruction 
     def store (self) :
         # determine which ixr to use
         index = self.get_index_ixr()
-            
         address = helper_functions.binary_to_decimal(self.address)
         print('index:', index)
         effective_address = 0
@@ -172,9 +152,7 @@ class Instruction:
             # there is indexing
             elif index > 0 and index < 4:
                 # calculate the effective address
-                # change the ixr in cpu
-                # TODO check again this logic. I need to access data [indexRegister][self.get_index_ixr].value()
-                
+                # change the ixr in cpu                
                 if index == 1:
                 # print(ixr.get_value())
                     value = self.cpu.ixr1.get_value()
@@ -190,19 +168,11 @@ class Instruction:
         else :
             # indirect_addressing == 1 
             if index == 0:
-                # check memory 
-                # mar.set_value(InstructionRegister.get_value)
-                # effective_address = address
-                # marReg.set_value(address)
-                
                 # get fetch memory[address]
                 effective_address = self.memory.get_memory_value(address)
-                
             # there is indexing
             elif index > 0 and index < 4:
                 # calculate the effective address
-                # TODO check again this logic. I need to access data [indexRegister][self.get_index_ixr].value()
-                # effective_address = address + ixr.get_value()
                 if index == 1:
                     # print(ixr.get_value())
                     value = self.cpu.ixr1.get_value()
@@ -210,7 +180,6 @@ class Instruction:
                     value = self.cpu.ixr2.get_value()
                 else:
                     value = self.cpu.ixr3.get_value()
-                
                 # get fetch memory[address]
                 effective_address = self.memory.get_memory_value(address + value)
                 # marReg.set_value(address + ixr.get_value())
@@ -220,17 +189,16 @@ class Instruction:
     def execute_store(self):
         # get effective address
         effective_address = self.load()
-        print(effective_address)
-        
+        print('testing store')
+        print('value of EA :',effective_address)
         # TODO: check please - is this the rest of logic for load
-        
         # Write address to MAR
         self.cpu.mar.set_value(effective_address)
-        
-        # load MBR with value at MAR
+        print('value set in mar',self.cpu.mar.get_value())
+        # read from memory at location equal value at MAR
         self.cpu.mbr.set_value(self.memory.store_memory_value(self.cpu.mar.get_value()))
-        
-        # read data from MBR (do we display this anywhere other than MBR?)
+        print('value read from memory:',self.memory.store_memory_value(self.cpu.mar.get_value()))
+        # TODO : This is needed for caching. read data from MBR (do we display this anywhere other than MBR?)
         return
 
 
