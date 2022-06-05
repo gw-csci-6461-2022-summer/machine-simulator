@@ -9,11 +9,13 @@ from memory import Memory
 from cpu import CPU
 
 test_memory = Memory(2048)
-test_memory.store_memory_value(20, 31)
+test_memory.store_memory_value(31, 10)
 test_cpu = CPU()
+test_cpu.mbr.set_value(20)
+print('value stored: ',test_memory.get_mem()[31])
 
 inst = Instruction(test_cpu, test_memory)
-inst.instruction_value = '0000011100011111'
+inst.instruction_value = '0000101100011111'
 inst.split_instruction()
 opcode = inst.get_opcode()
 index_gpr = inst.get_index_gpr()
@@ -29,7 +31,7 @@ ixr = indexRegister(register_name="IX1", register_size=16, value=2, ixr_number=h
 mar_test = mar("mar", 12, 0)
 
 inst.decoding_instruction()
-inst.load()
-inst1 = Instruction(test_cpu, test_memory)
-inst1.instruction_value = '0000101100011101'
-inst1.store()
+inst.execute_store()
+# inst1 = Instruction(test_cpu, test_memory)
+# inst1.instruction_value = '0000101100011101'
+# inst1.store()
