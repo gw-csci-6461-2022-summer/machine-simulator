@@ -41,7 +41,10 @@ class Instruction:
     
     def get_index_gpr(self):
         self.opcode,index_gpr,index_ixr,indirect_addressing,address = self.split_instruction()
-        return self.index_gpr
+        if index_gpr == str('00') : return 0 
+        elif index_gpr == str('01') : return 1
+        elif index_gpr == str('10') : return 2 
+        elif index_gpr == str('11') : return 3
     
     def get_index_ixr(self):
         opcode,index_gpr,index_ixr,indirect_addressing,address = self.split_instruction()
@@ -132,6 +135,18 @@ class Instruction:
         # read from memory at location equal value at MAR
         self.cpu.mbr.set_value(self.memory.get_memory_value(self.cpu.mar.get_value()))
         print('value read from memory:',self.memory.get_memory_value(self.cpu.mar.get_value()))
+        
+        # for LDR, load value from mbr into target GPR
+        gpr_index = self.get_index_gpr()
+        if gpr_index == 0:
+            self.cpu.gpr0.set_value(self.cpu.mbr.get_value())
+        elif gpr_index == 1:
+            self.cpu.gpr1.set_value(self.cpu.mbr.get_value())
+        elif gpr_index == 2:
+            self.cpu.gpr2.set_value(self.cpu.mbr.get_value())
+        else:
+            self.cpu.gpr3.set_value(self.cpu.mbr.get_value())
+            
         # TODO : This is needed for caching. read data from MBR (do we display this anywhere other than MBR?)
         return
 
@@ -191,13 +206,26 @@ class Instruction:
         effective_address = self.load()
         print('testing store')
         print('value of EA :',effective_address)
-        # TODO: check please - is this the rest of logic for load
+        
         # Write address to MAR
         self.cpu.mar.set_value(effective_address)
         print('value set in mar',self.cpu.mar.get_value())
+        
+        # for STR, store value from gprx into target address
+        # fetch val from target gpr
+        gpr_index = self.get_index_gpr()
+        if gpr_index == 0:
+            value = self.cpu.gpr0.get_value()
+        elif gpr_index == 1:
+            value = self.cpu.gpr1.get_value()
+        elif gpr_index == 2:
+            value = self.cpu.gpr2.get_value()
+        else:
+            value = self.cpu.gpr3.get_value()
+        
         # read from memory at location equal value at MAR
-        self.memory.store_memory_value(self.cpu.mar.get_value(), self.cpu.mbr.get_value())
-        print(self.cpu.mbr.get_value())
+        self.memory.store_memory_value(value, self.cpu.mbr.get_value())
+        print(value)
         print('value stored from memory:',self.memory.get_memory_value(self.cpu.mar.get_value()))
         print(self.memory.get_mem().values()[31])
         # TODO : This is needed for caching. read data from MBR (do we display this anywhere other than MBR?)
