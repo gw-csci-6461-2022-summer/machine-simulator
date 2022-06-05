@@ -93,9 +93,23 @@ class CPU:
         # print('converted gpr',int(index_gpr, base=2))
         inst.decoding_instruction()
         
-        # reset pc if we're at end
+        # reset registers if we're at end
         if self.pc.get_value() == ++self.memory.get_memory_size():
             self.pc.set_value(0)
+            
+            self.gpr0.set_value(0)
+            self.gpr1.set_value(0)
+            self.gpr2.set_value(0)
+            self.gpr3.set_value(0)
+            
+            self.ixr1.set_value(0)
+            self.ixr2.set_value(0)
+            self.ixr3.set_value(0)
+            
+            self.mar.set_value(0)
+            self.mbr.set_value(0)
+            
+            self.ir.set_value(0)
         
         return 
     

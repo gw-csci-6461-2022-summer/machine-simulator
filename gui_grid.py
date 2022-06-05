@@ -18,6 +18,19 @@ def UploadFile(event=None):
     
     # load the txt input program into memory
     CPU.load_program(cpu, filename)
+    
+# on "Store" button click, store value of MBR into Memory[MAR]
+def gui_store():
+    word = helper_functions.binary_to_decimal(cpu.mar.get_value())
+    cpu.memory.store_memory_value(word, cpu.mbr.get_value())
+    helper_functions.print_memory_contents(cpu.memory)
+    
+# on "Load" button click, load value at Memory[MAR] into MBR
+def gui_load():
+    word = helper_functions.binary_to_decimal(cpu.mar.get_value())
+    value = cpu.memory.get_memory_value(word)
+    cpu.mbr.set_value(value)
+    helper_functions.print_memory_contents(cpu.memory)
   
 # on "LD" button click, load GPR0 with input value
 def ld_gpr0(value):
@@ -154,20 +167,7 @@ def ld_mbr():
       bits += '1'
     else:
       bits += '0'
-  print(bits)
-  inst = Instruction(cpu, cpu.memory)
-  inst.instruction_value = bits
-  inst.split_instruction()
-  opcode = inst.get_opcode()
-  index_gpr = inst.get_index_gpr()
-  print('opcode:',inst.get_opcode())
-  print('general purpose register:',inst.get_index_gpr())
-  print('index register:',inst.get_index_ixr())
-  print('indirect addressing:',inst.get_indirect_addressing())
-  print('address: ',inst.get_address())
-  print('converted opcode',int(opcode, base=2))
-  print('converted gpr',int(index_gpr, base=2))
-  inst.decoding_instruction()
+  
   cpu.mbr.set_value(bits)
   print("Loaded mbr: {}".format(cpu.mbr.get_value()))
   bitToCheckbox(mbr, bits)
@@ -319,9 +319,9 @@ buttonFrame = tk.Frame(window, bg="#97ecf7")
 buttonFrame.grid(row=4,column=4)
 buttonFrame.grid_columnconfigure(4, weight=7, minsize=100)
 
-store_btn = tk.Button(buttonFrame, text = "Store", fg = "green",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=20,column=0)
-store_plus_btn = tk.Button(buttonFrame, text = "Store+", fg = "green",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=20,column=1)
-load_btn = tk.Button(buttonFrame, text = "Load", fg = "green",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=20,column=2)
+store_btn = tk.Button(buttonFrame, text = "Store", fg = "green",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=lambda:gui_store()).grid(row=20,column=0)
+# store_plus_btn = tk.Button(buttonFrame, text = "Store+", fg = "green",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=20,column=1)
+load_btn = tk.Button(buttonFrame, text = "Load", fg = "green",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=lambda:gui_load()).grid(row=20,column=2)
 init_btn = tk.Button(buttonFrame, text = "Init", fg = "red",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=UploadFile).grid(row=20,column=3)
 
 # creating Instruction Buttons
@@ -349,7 +349,7 @@ Label(InstructionFrame, text = "Address", justify="right").place(relx = 0.85, re
 runFrame = tk.Frame(window, bg="#97ecf7")
 runFrame.grid(row=4,column=1)
 SS_btn = tk.Button(runFrame, text = "SS", fg = "black",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=lambda:stepCheck()).grid(row=0,column=0)
-Run_btn = tk.Button(runFrame, text = "Run", fg = "black",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=lambda:CPU.run_program(cpu)).grid(row=0,column=1)
+Run_btn = tk.Button(runFrame, text = "Run", fg = "black",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=lambda:runCheck()).grid(row=0,column=1)
 Halt_ck = tk.Checkbutton(runFrame, text='Halt', bg="#97ecf7").grid(row=0,column=2)
 Run_ck = tk.Checkbutton(runFrame, text='Run', bg="#97ecf7").grid(row=1,column=2)
 
@@ -370,5 +370,24 @@ def stepCheck():
   bitToCheckbox(ir,helper_functions.decimal_to_bit_array_unsigned(int(cpu.ir.get_value()),cpu.ir.get_register_size()))
 
   CPU.step_through(cpu)
+  
+# On run, update and step through entire program
+def runCheck():
+  for i in range(cpu.pc.get_value(), cpu.memory.get_memory_size()):
+      bitToCheckbox(gpr0,helper_functions.decimal_to_bit_array_unsigned(int(cpu.gpr0.get_value()),cpu.gpr0.get_register_size()))
+      bitToCheckbox(gpr1,helper_functions.decimal_to_bit_array_unsigned(int(cpu.gpr1.get_value()),cpu.gpr1.get_register_size()))
+      bitToCheckbox(gpr2,helper_functions.decimal_to_bit_array_unsigned(int(cpu.gpr2.get_value()),cpu.gpr2.get_register_size()))
+      bitToCheckbox(gpr3,helper_functions.decimal_to_bit_array_unsigned(int(cpu.gpr3.get_value()),cpu.gpr3.get_register_size()))
+
+      bitToCheckbox(ixr1,helper_functions.decimal_to_bit_array_unsigned(int(cpu.ixr1.get_value()),cpu.ixr1.get_register_size()))
+      bitToCheckbox(ixr2,helper_functions.decimal_to_bit_array_unsigned(int(cpu.ixr2.get_value()),cpu.ixr2.get_register_size()))
+      bitToCheckbox(ixr3,helper_functions.decimal_to_bit_array_unsigned(int(cpu.ixr3.get_value()),cpu.ixr3.get_register_size()))
+
+      bitToCheckbox(pc,helper_functions.decimal_to_bit_array_unsigned(int(cpu.pc.get_value()),cpu.pc.get_register_size()))
+      bitToCheckbox(mar,helper_functions.decimal_to_bit_array_unsigned(int(cpu.mar.get_value()),cpu.mar.get_register_size()))
+      bitToCheckbox(mbr,helper_functions.decimal_to_bit_array_unsigned(int(cpu.mbr.get_value()),cpu.mbr.get_register_size()))
+      bitToCheckbox(ir,helper_functions.decimal_to_bit_array_unsigned(int(cpu.ir.get_value()),cpu.ir.get_register_size()))
+  
+      CPU.step_through(cpu)
 
 window.mainloop()
