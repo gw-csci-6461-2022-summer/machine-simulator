@@ -19,13 +19,13 @@ class CPU:
     def __init__(self):
         # init registers. Note that gpr and ixr have register number attribute starting from zero
         self.pc = pc('pc',12,0)
-        self.gpr0= gpr('gpr',16,1,0)
-        self.gpr1= gpr('gpr',16,1,1)
-        self.gpr2= gpr('gpr',16,1,2)
-        self.gpr3= gpr('gpr',16,1,3)
-        self.ixr1= indexRegister('ixr',16,1,1)
-        self.ixr2= indexRegister('ixr',16,1,2)
-        self.ixr3= indexRegister('ixr',16,1,3)
+        self.gpr0= gpr('gpr', 16, 0,0)
+        self.gpr1= gpr('gpr',16,0,1)
+        self.gpr2= gpr('gpr',16,0,2)
+        self.gpr3= gpr('gpr',16,0,3)
+        self.ixr1= indexRegister('ixr',16,0,1)
+        self.ixr2= indexRegister('ixr',16,0,2)
+        self.ixr3= indexRegister('ixr',16,0,3)
         self.pc = pc('pc',12,0)
         self.mar= mar('mar',12,0)
         self.mbr= mbr('mbr',4,0)
@@ -89,8 +89,8 @@ class CPU:
         print('index register:',inst.get_index_ixr())
         print('indirect addressing:',inst.get_indirect_addressing())
         print('address: ',inst.get_address())
-        print('converted opcode',int(opcode, base=2))
-        print('converted gpr',int(index_gpr, base=2))
+        # print('converted opcode',int(opcode, base=2))
+        # print('converted gpr',int(index_gpr, base=2))
         inst.decoding_instruction()
         
         # reset pc if we're at end

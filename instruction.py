@@ -69,16 +69,19 @@ class Instruction:
             # TODO: execute_halt()
             return 0
         elif self.opcode == 1:
+            # TODO: execute_loadA()
             print ('Instruction: LDR')
-            self.execute_load()
+            self.execute_loadR()
             return 1
         elif self.opcode == 2:
             print ('Instruction: STR')
             # TODO: execute_store()
+            self.execute_store()
             return 2
         elif self.opcode == 3:
             print ('Instruction: LDA')
-            # TODO: execute_store()
+            # TODO: execute_loadA()
+            self.execute_loadA()
             return 3
                     
     # load instruction 
@@ -127,7 +130,7 @@ class Instruction:
                 print("EA is " + str(effective_address))
         return effective_address
     
-    def execute_load(self):
+    def execute_loadR(self):
         # get effective address
         effective_address = self.load()
         print('testing load')
