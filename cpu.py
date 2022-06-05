@@ -23,9 +23,9 @@ class CPU:
         self.gpr1= gpr('gpr',16,1,1)
         self.gpr2= gpr('gpr',16,1,2)
         self.gpr3= gpr('gpr',16,1,3)
-        self.ixr1= indexRegister('ixr',16,1,0)
-        self.ixr2= indexRegister('ixr',16,1,1)
-        self.ixr3= indexRegister('ixr',16,1,2)
+        self.ixr1= indexRegister('ixr',16,1,1)
+        self.ixr2= indexRegister('ixr',16,1,2)
+        self.ixr3= indexRegister('ixr',16,1,3)
         self.pc = pc('pc',12,0)
         self.mar= mar('mar',12,0)
         self.mbr= mbr('mbr',4,0)
@@ -79,7 +79,7 @@ class CPU:
         self.ir.set_value(helper_functions.decimal_to_bit_array_unsigned(self.mbr.get_value(),16))
         
         # decode 
-        inst = Instruction()
+        inst = Instruction(self, self.memory)
         inst.instruction_value = self.ir.get_value()
         inst.split_instruction()
         opcode = inst.get_opcode()
