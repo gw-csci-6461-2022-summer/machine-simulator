@@ -76,6 +76,10 @@ class Instruction:
             print ('Instruction: STR')
             # TODO: execute_store()
             return 2
+        elif self.opcode == 3:
+            print ('Instruction: LDA')
+            # TODO: execute_store()
+            return 3
                     
     # load instruction 
     def load (self) :
@@ -146,6 +150,30 @@ class Instruction:
             self.cpu.gpr2.set_value(self.cpu.mbr.get_value())
         else:
             self.cpu.gpr3.set_value(self.cpu.mbr.get_value())
+            
+        # TODO : This is needed for caching. read data from MBR (do we display this anywhere other than MBR?)
+        return
+      
+    def execute_loadA(self):
+        # get effective address
+        effective_address = self.load()
+        print('testing load')
+        print('value of EA :',effective_address)
+        # TODO: check please - is this the rest of logic for load
+        # Write address to MAR
+        self.cpu.mar.set_value(effective_address)
+        print('value set in mar',self.cpu.mar.get_value())
+        
+        # for LDR, load value from EA into target GPR
+        gpr_index = self.get_index_gpr()
+        if gpr_index == 0:
+            self.cpu.gpr0.set_value(effective_address)
+        elif gpr_index == 1:
+            self.cpu.gpr1.set_value(effective_address)
+        elif gpr_index == 2:
+            self.cpu.gpr2.set_value(effective_address)
+        else:
+            self.cpu.gpr3.set_value(effective_address)
             
         # TODO : This is needed for caching. read data from MBR (do we display this anywhere other than MBR?)
         return
@@ -227,7 +255,7 @@ class Instruction:
         self.memory.store_memory_value(value, self.cpu.mbr.get_value())
         print(value)
         print('value stored from memory:',self.memory.get_memory_value(self.cpu.mar.get_value()))
-        print(self.memory.get_mem().values()[31])
+        print(self.memory.get_mem()[31])
         # TODO : This is needed for caching. read data from MBR (do we display this anywhere other than MBR?)
         return
 
