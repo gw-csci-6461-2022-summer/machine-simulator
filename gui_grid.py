@@ -117,14 +117,68 @@ def ld_ixr3(value):
     bitToCheckbox(ixr3, bits)
     print("Loaded ixr3: {}".format(cpu.ixr3.get_value()))
 
-window = Tk()
-window.configure(background='#97ecf7')
-window.title("Machine Simulator")
+# on "LD" button click, load MAR with input value 
+def ld_mar():
+  bits = ""
+  for i in range(4, 16):
+    if str(buttons[i].cget("bg")) == "blue":
+      colorChange(i)
+      bits += '1'
+    else:
+      bits += '0'
+  print(bits)
+  cpu.mar.set_value(bits)
+  print("Loaded mar: {}".format(cpu.mar.get_value()))
+  bitToCheckbox(mar, bits)
 
-# setting layout of main window
-window.grid_columnconfigure(2,weight=1)
-window.grid_rowconfigure(3,weight=1)
-
+# on "LD" button click, load PC with input value 
+def ld_pc():
+  bits = ""
+  for i in range(4, 16):
+    if str(buttons[i].cget("bg")) == "blue":
+      colorChange(i)
+      bits += '1'
+    else:
+      bits += '0'
+  print(bits)
+  cpu.pc.set_value(bits)
+  print("Loaded pc: {}".format(cpu.pc.get_value()))
+  bitToCheckbox(pc, bits)
+  
+# on "LD" button click, load MBR with input value 
+def ld_mbr():
+  bits = ""
+  for i in range(0, 16):
+    if str(buttons[i].cget("bg")) == "blue":
+      colorChange(i)
+      bits += '1'
+    else:
+      bits += '0'
+  print(bits)
+  inst = Instruction(cpu, cpu.memory)
+  inst.instruction_value = bits
+  inst.split_instruction()
+  opcode = inst.get_opcode()
+  index_gpr = inst.get_index_gpr()
+  print('opcode:',inst.get_opcode())
+  print('general purpose register:',inst.get_index_gpr())
+  print('index register:',inst.get_index_ixr())
+  print('indirect addressing:',inst.get_indirect_addressing())
+  print('address: ',inst.get_address())
+  print('converted opcode',int(opcode, base=2))
+  print('converted gpr',int(index_gpr, base=2))
+  inst.decoding_instruction()
+  cpu.mbr.set_value(bits)
+  print("Loaded mbr: {}".format(cpu.mbr.get_value()))
+  bitToCheckbox(mbr, bits)
+  
+# changes the color of the instruction switches
+def colorChange(button):
+  if str(buttons[button].cget("bg")) == "blue":
+    buttons[button].config(bg="#97ecf7")
+  else:
+    buttons[button].config(bg="blue")
+    
 # bit array to be represented with the checkboxes
 def bitToCheckbox(boxArray, bitArray):
   for i in range(len(boxArray)):
@@ -132,6 +186,14 @@ def bitToCheckbox(boxArray, bitArray):
       boxArray[i].set(1)
     else:
       boxArray[i].set(0)
+
+window = Tk()
+window.configure(background='#97ecf7')
+window.title("Machine Simulator")
+
+# setting layout of main window
+window.grid_columnconfigure(2,weight=1)
+window.grid_rowconfigure(3,weight=1)
 
 # create register frame and place it
 registersGPRFrame = tk.Frame(window, bg="#97ecf7")
@@ -209,42 +271,6 @@ otherFrame = tk.Frame(window, bg="#97ecf7")
 otherFrame.grid(row=0,column=2)
 otherFrame.grid_columnconfigure(4, weight=1, minsize=50)
 
-def mar_pc_Load(arr):
-  bits = ""
-  for i in range(4, 16):
-    if str(buttons[i].cget("bg")) == "blue":
-      colorChange(i)
-      bits += '1'
-    else:
-      bits += '0'
-  print(bits)
-  bitToCheckbox(arr, bits)
-  
-def mbrLoad():
-  bits = ""
-  for i in range(0, 16):
-    if str(buttons[i].cget("bg")) == "blue":
-      colorChange(i)
-      bits += '1'
-    else:
-      bits += '0'
-  print(bits)
-  inst = Instruction(cpu, cpu.memory)
-  inst.instruction_value = bits
-  inst.split_instruction()
-  opcode = inst.get_opcode()
-  index_gpr = inst.get_index_gpr()
-  print('opcode:',inst.get_opcode())
-  print('general purpose register:',inst.get_index_gpr())
-  print('index register:',inst.get_index_ixr())
-  print('indirect addressing:',inst.get_indirect_addressing())
-  print('address: ',inst.get_address())
-  print('converted opcode',int(opcode, base=2))
-  print('converted gpr',int(index_gpr, base=2))
-  # print('testing decoding:',opcode.decoding_instruction())
-  inst.decoding_instruction()
-  bitToCheckbox(mbr, bits)
-
 # label for for PC, MAR, MBR, IR, MFR, Privileged
 pc_btn = tk.Label(otherFrame, text = "PC", fg = "blue",width=6,relief=tk.RAISED,justify='right')
 pc_btn.grid(row=1,column=22)
@@ -252,7 +278,7 @@ pc = []
 for i in range (23,35):
   pc.append(IntVar())
   tk.Checkbutton(otherFrame, text='', variable=pc[i-23], bg="#97ecf7").grid(row=1,column=i)
-pc_LD= tk.Button(otherFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7", command=lambda: mar_pc_Load(pc)).grid(row=1,column=35)
+pc_LD= tk.Button(otherFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7", command=lambda: ld_pc()).grid(row=1,column=35)
 
 mar_btn = tk.Label(otherFrame, text = "MAR", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
 mar_btn.grid(row=2,column=22)
@@ -260,7 +286,7 @@ mar = []
 for i in range (23,35):
   mar.append(IntVar())
   tk.Checkbutton(otherFrame, text='', variable=mar[i-23], bg="#97ecf7").grid(row=2,column=i)
-mar_LD = tk.Button(otherFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7", command=lambda: mar_pc_Load(mar)).grid(row=2,column=35)
+mar_LD = tk.Button(otherFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7", command=lambda: ld_mar()).grid(row=2,column=35)
 
 mbr_btn = tk.Label(otherFrame, text = "MBR", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
 mbr_btn.grid(row=3,column=18)
@@ -268,7 +294,7 @@ mbr = []
 for i in range (19,35):
   mbr.append(IntVar())
   tk.Checkbutton(otherFrame, text='', variable=mbr[i-19], bg="#97ecf7").grid(row=3,column=i)
-mbr_LD = tk.Button(otherFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7", command=lambda: mbrLoad()).grid(row=3,column=35)
+mbr_LD = tk.Button(otherFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7", command=lambda: ld_mbr()).grid(row=3,column=35)
 
 ir_btn = tk.Label(otherFrame, text = "IR", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
 ir_btn.grid(row=4,column=18)
@@ -301,11 +327,6 @@ init_btn = tk.Button(buttonFrame, text = "Init", fg = "red",padx=8,pady=8,relief
 # creating Instruction Buttons
 InstructionFrame = tk.Frame(window, bg="#97ecf7")
 InstructionFrame.grid(row=5,column=0)
-def colorChange(button):
-  if str(buttons[button].cget("bg")) == "blue":
-    buttons[button].config(bg="#97ecf7")
-  else:
-    buttons[button].config(bg="blue")
 buttons = []
 btn_no = -1
 for i in range (0,16):
