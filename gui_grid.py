@@ -229,7 +229,7 @@ def mbrLoad():
     else:
       bits += '0'
   print(bits)
-  inst = Instruction()
+  inst = Instruction(cpu, cpu.memory)
   inst.instruction_value = bits
   inst.split_instruction()
   opcode = inst.get_opcode()
