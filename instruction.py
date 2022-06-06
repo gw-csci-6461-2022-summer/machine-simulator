@@ -167,16 +167,20 @@ class Instruction:
         self.cpu.mar.set_value(effective_address)
         print('value set in mar',self.cpu.mar.get_value())
         
+        # read from memory at location equal value at MAR
+        self.cpu.mbr.set_value(self.cpu.mar.get_value())
+        print('value read from memory:',self.memory.get_memory_value(self.cpu.mar.get_value()))
+        
         # for LDR, load value from EA into target GPR
         gpr_index = self.get_index_gpr()
         if gpr_index == 0:
-            self.cpu.gpr0.set_value(effective_address)
+            self.cpu.gpr0.set_value(self.cpu.mbr.get_value())
         elif gpr_index == 1:
-            self.cpu.gpr1.set_value(effective_address)
+            self.cpu.gpr1.set_value(self.cpu.mbr.get_value())
         elif gpr_index == 2:
-            self.cpu.gpr2.set_value(effective_address)
+            self.cpu.gpr2.set_value(self.cpu.mbr.get_value())
         else:
-            self.cpu.gpr3.set_value(effective_address)
+            self.cpu.gpr3.set_value(self.cpu.mbr.get_value())
             
         # TODO : This is needed for caching. read data from MBR (do we display this anywhere other than MBR?)
         return
@@ -241,7 +245,7 @@ class Instruction:
         # Write address to MAR
         self.cpu.mar.set_value(effective_address)
         print('value set in mar',self.cpu.mar.get_value())
-        
+
         # for STR, store value from gprx into target address
         # fetch val from target gpr
         gpr_index = self.get_index_gpr()
@@ -255,7 +259,10 @@ class Instruction:
             value = self.cpu.gpr3.get_value()
         
         # read from memory at location equal value at MAR
-        self.memory.store_memory_value(value, self.cpu.mbr.get_value())
+        self.cpu.mbr.set_value(value)
+        
+        # read from memory at location equal value at MAR
+        self.memory.store_memory_value(self.cpu.mbr.get_value(), self.cpu.mar.get_value())
         print(value)
         print('value stored from memory:',self.memory.get_memory_value(self.cpu.mar.get_value()))
         print(self.memory.get_mem()[31])

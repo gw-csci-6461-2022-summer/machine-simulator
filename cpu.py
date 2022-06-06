@@ -74,13 +74,13 @@ class CPU:
         
         # load MBR with instruction/data from Memory[MAR]
         self.mbr.set_value(self.memory.get_memory_value(self.mar.get_value()))
-        
+        print("MBR", self.mbr.get_value())
         # copy mbr to ir
-        self.ir.set_value(helper_functions.decimal_to_bit_array_unsigned(self.mbr.get_value(),16))
-        
+        self.ir.set_value(self.mbr.get_value())
+        print("IR:", self.ir.get_value())
         # decode 
         inst = Instruction(self, self.memory)
-        inst.instruction_value = self.ir.get_value()
+        inst.instruction_value = helper_functions.decimal_to_bit_array_unsigned(self.ir.get_value(), self.ir.get_register_size())
         inst.split_instruction()
         opcode = inst.get_opcode()
         index_gpr = inst.get_index_gpr()
