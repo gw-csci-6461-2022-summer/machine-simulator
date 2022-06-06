@@ -26,6 +26,3 @@ class Memory:
     def reset_memory(self):
         for i in range(self.size):
             self.mem[i] = 0
-    
-    def get_mem(self):
-      return self.mem
