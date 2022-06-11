@@ -60,6 +60,7 @@ class Cache:
 
     # I was thinking of using a queue for the cache. add to top with append
     # pop() removes last element if cache is full
+    # We still need to have an in depth talk about the structure
     # '''
 
 
