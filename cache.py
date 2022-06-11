@@ -41,18 +41,26 @@ class Cache:
         self.__push(new_cache_line)
         print('we added data to the cache!')
         return value
+      
+    def set_data(self, address, value):
+        if self.cached_data.len() >= 16:
+          self.cached_data.pop()
+        new_cache_line = CacheLine(address, value)
+        self.cached_data.append(new_cache_line)
 
     
-    '''
-    TODO
-    - we might have to decide the replacement policy
-    - discuss the type of data structure we will use for cache
+    # '''
+    # TODO
+    # - we might have to decide the replacement policy
+    # - discuss the type of data structure we will use for cache
 
-    Maybe write code the below functions?
-    - def set_data(self,address):
-    - def display_cache_content(): 
+    # Maybe write code the below functions?
+    # - def set_data(self,address):
+    # - def display_cache_content(): 
 
-    '''
+    # I was thinking of using a queue for the cache. add to top with append
+    # pop() removes last element if cache is full
+    # '''
 
 
 
