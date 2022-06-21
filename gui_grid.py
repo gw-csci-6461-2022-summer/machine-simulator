@@ -28,9 +28,16 @@ def gui_store():
 # on "Load" button click, load value at Memory[MAR] into MBR
 def gui_load():
     word = helper_functions.binary_to_decimal(cpu.mar.get_value())
+    print(word)
     value = cpu.memory.get_memory_value(word)
+    print(value)
     cpu.mbr.set_value(value)
     helper_functions.print_memory_contents(cpu.memory)
+    if value == 0:
+        bitToCheckbox(mbr, '0000000000000000')
+    else:
+        str1 = str(cpu.mbr.get_value()).zfill(16)
+        bitToCheckbox(mbr, str1)
   
 # on "LD" button click, load GPR0 with input value
 def ld_gpr0(value):
@@ -154,7 +161,8 @@ def ld_pc():
     else:
       bits += '0'
   print(bits)
-  cpu.pc.set_value(bits)
+  val = helper_functions.binary_to_decimal(int(bits))
+  cpu.pc.set_value(val)
   print("Loaded pc: {}".format(cpu.pc.get_value()))
   bitToCheckbox(pc, bits)
   
@@ -373,6 +381,7 @@ def stepCheck():
   
 # On run, update and step through entire program
 def runCheck():
+  cpu.HLT = 0
   for i in range(cpu.pc.get_value(), cpu.memory.get_memory_size()):
       bitToCheckbox(gpr0,helper_functions.decimal_to_bit_array_unsigned(int(cpu.gpr0.get_value()),cpu.gpr0.get_register_size()))
       bitToCheckbox(gpr1,helper_functions.decimal_to_bit_array_unsigned(int(cpu.gpr1.get_value()),cpu.gpr1.get_register_size()))
@@ -389,5 +398,8 @@ def runCheck():
       bitToCheckbox(ir,helper_functions.decimal_to_bit_array_unsigned(int(cpu.ir.get_value()),cpu.ir.get_register_size()))
   
       CPU.step_through(cpu)
+      
+      if cpu.HLT == 1:
+          break
 
 window.mainloop()

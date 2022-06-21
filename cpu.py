@@ -38,24 +38,28 @@ class CPU:
         # no input program loaded yet
         self.is_loaded = 0
         
-        # init values
-        self.total_program_lines = 0
-        self.current_execution_line = 0
+        # flag for HLT raised
+        self.HLT = 0
         
     def load_program(self,filename):
+        # reset memory first
+        self.memory.reset_memory()
+        
+        # start pc at 1
+        self.pc.set_value(0)
+        
         # default: load input program beginning at default mem location 10
         file = open(filename, 'r')
         Lines = file.readlines()
         
         for line in Lines:
-            self.total_program_lines += 1
             line = line.split()
-            print("storing {} at {}".format(line[1], line[0]))
             
             location = helper_functions.hex_to_decimal(line[0])
             
             # TODO: decide if we want to store value as decimal, bit array, etc.
             Memory.store_memory_value(self.memory, location, helper_functions.hex_to_decimal(line[1]))
+            print("storing {} at {}".format(line[1], line[0]))
     
         file.close()
         
@@ -64,6 +68,27 @@ class CPU:
     # "step" button clicked, step to next line of program and execute it 
     def step_through(self):
         print("stepping")
+        
+        # if user tries to execute 2048, don't let them we will get an error
+        # reset registers
+        if self.pc.get_value() == 2048:
+            self.pc.set_value(0)
+            
+            self.gpr0.set_value(0)
+            self.gpr1.set_value(0)
+            self.gpr2.set_value(0)
+            self.gpr3.set_value(0)
+            
+            self.ixr1.set_value(0)
+            self.ixr2.set_value(0)
+            self.ixr3.set_value(0)
+            
+            self.mar.set_value(0)
+            self.mbr.set_value(0)
+            
+            self.ir.set_value(0)
+            return
+            
         
         # copy address from PC to MAR
         self.mar.set_value(self.pc.get_value())
