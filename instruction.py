@@ -66,23 +66,25 @@ class Instruction:
         self.opcode = int(str(self.opcode),base=2)
         if self.opcode == 0:
             print ('Instruction: HALT')
-            # TODO: execute_halt()
+            self.execute_halt()
             return 0
         elif self.opcode == 1:
-            # TODO: execute_loadA()
             print ('Instruction: LDR')
             self.execute_loadR()
             return 1
         elif self.opcode == 2:
             print ('Instruction: STR')
-            # TODO: execute_store()
             self.execute_store()
             return 2
         elif self.opcode == 3:
             print ('Instruction: LDA')
-            # TODO: execute_loadA()
             self.execute_loadA()
             return 3
+        
+    def execute_halt(self):
+        # stop running program
+        self.cpu.HLT = 1
+        return
                     
     # load instruction 
     def load (self) :
@@ -260,9 +262,10 @@ class Instruction:
         
         # read from memory at location equal value at MAR
         self.cpu.mbr.set_value(value)
+        print(self.cpu.mbr.get_value())
         
         # read from memory at location equal value at MAR
-        self.memory.store_memory_value(self.cpu.mbr.get_value(), self.cpu.mar.get_value())
+        self.memory.store_memory_value(self.cpu.mar.get_value(), self.cpu.mbr.get_value())
         print(value)
         print('value stored from memory:',self.memory.get_memory_value(self.cpu.mar.get_value()))
         print(self.memory.get_mem()[31])
