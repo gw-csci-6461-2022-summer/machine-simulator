@@ -80,6 +80,38 @@ class Instruction:
             print ('Instruction: LDA')
             self.execute_loadA()
             return 3
+        elif self.opcode == 10:
+            print ('Instruction: JZ')
+            self.execute_jump_if_zero()
+            return 10
+        elif self.opcode == 11:
+            print ('Instruction: JNE')
+            self.execute_loadA()
+            return 11
+        elif self.opcode == 12:
+            print ('Instruction: JCC')
+            self.execute_jump_if_condition_code()
+            return 12
+        elif self.opcode == 13:
+            print ('Instruction: JMA')
+            self.execute_unconditional_jump_to_address()
+            return 13
+        elif self.opcode == 14:
+            print ('Instruction: JSR')
+            self.execute_jump_and_save_return_address()
+            return 14
+        elif self.opcode == 15:
+            print ('Instruction: RFS')
+            self.execute_return_from_subroutine()
+            return 15
+        elif self.opcode == 16:
+            print ('Instruction: SOB')
+            self.execute_subtract_one_and_branch()
+            return 16
+        elif self.opcode == 17:
+            print ('Instruction: JGE')
+            self.execute_jump_greater_than_or_equal_to()
+            return 17
         
     def execute_halt(self):
         # stop running program
@@ -272,21 +304,52 @@ class Instruction:
         # TODO : This is needed for caching. read data from MBR (do we display this anywhere other than MBR?)
         return
 
+    '''You need instrcution and memory adress
+    Load MBR to see entire instruction in MBR
+    MBR shows instruction as binary string
+    Load MAR with addess
+    Instruction from MBR will be loaded in MAR
+    MAR incremented by 1
 
+    2 ways to load into memory (init and LD)
 
-'''You need instrcution and memory adress
-Load MBR to see entire instruction in MBR
-MBR shows instruction as binary string
-Load MAR with addess
-Instruction from MBR will be loaded in MAR
-MAR incremented by 1
-
-2 ways to load into memory (init and LD)
-
-After loading into memory 
-we assign to PC the first address and increase pc by 1
-load PCto run 
-after that we run single step - execute, copy instruction to IR  and increase
-it will put values in MAR and MBR'''
+    After loading into memory 
+    we assign to PC the first address and increase pc by 1
+    load PCto run 
+    after that we run single step - execute, copy instruction to IR  and increase
+    it will put values in MAR and MBR'''
     
+    # transfer instructions
+    def execute_jump_if_zero(self):
+        # TODO
+        return
+
+    def execute_jump_if_not_equal(self):
+        # TODO
+        return
+
+    def execute_jump_if_condition_code(self):
+        # TODO
+        return
+
+    def execute_unconditional_jump_to_address(self):
+        # TODO
+        return
+
+    def execute_jump_and_save_return_address(self):
+        # TODO
+        return
+
+    def execute_return_from_subroutine(self):
+        # TODO
+        return
+
+    def execute_subtract_one_and_branch(self):
+        # TODO
+        return
+
+    def execute_jump_greater_than_or_equal_to(self):
+        # TODO
+        return
+
 
