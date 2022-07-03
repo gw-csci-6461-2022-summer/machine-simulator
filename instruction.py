@@ -86,7 +86,7 @@ class Instruction:
             return 10
         elif self.opcode == 11:
             print ('Instruction: JNE')
-            self.execute_loadA()
+            self.execute_jump_if_not_equal()
             return 11
         elif self.opcode == 12:
             print ('Instruction: JCC')
@@ -321,7 +321,14 @@ class Instruction:
     
     # transfer instructions
     def execute_jump_if_zero(self):
-        # TODO
+        # if c(r) = 0 
+        if self.get_value_gpr() == 0:
+            # then PC <- EA
+                self.cpu.pc.set_value(self.load())
+        # else PC <- PC+1
+        else: 
+            self.cpu.pc.increment_pc()
+
         return
 
     def execute_jump_if_not_equal(self):
@@ -351,5 +358,18 @@ class Instruction:
     def execute_jump_greater_than_or_equal_to(self):
         # TODO
         return
+
+    # transfer instruction helper functions
+    def get_value_gpr(self):
+        gpr_index = self.get_index_gpr()
+        if gpr_index == 0:
+            return self.cpu.gpr0.get_value()
+        elif gpr_index == 1:
+            return self.cpu.gpr1.get_value()
+        elif gpr_index == 2:
+            return self.cpu.gpr2.get_value()
+        else:
+            return self.cpu.gpr3.get_value()
+
 
 
