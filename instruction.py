@@ -325,6 +325,8 @@ class Instruction:
         if self.get_value_gpr() == 0:
             #PC <- EA
             self.cpu.pc.set_value(self.load())
+        else: 
+            self.cpu.pc.increment_pc()
         return
 
     def execute_jump_if_not_equal(self):
@@ -332,15 +334,18 @@ class Instruction:
         if self.get_value_gpr() != 0:
             #PC <- EA
             self.cpu.pc.set_value(self.load())
+        else: 
+            self.cpu.pc.increment_pc()
         return
 
-    def execute_jump_if_condition_code(self):
-        # cc takes values 0, 1, 2, 3 as above 
-        # and specifies the bit in the Condition Code Register to check
-        # if cc bit  = 1
-        if self.get_cc_bit() == 1:
+    def execute_jump_if_condition_code(self,cc_bit):
+        # specifies the bit in the condition code register to check
+        # if cc bit = 1
+        if self.get_value_cc_bit(cc_bit) == 1:
             # PC <- EA
             self.cpu.pc.set_value(self.load())
+        else: 
+            self.cpu.pc.increment_pc()
         return
 
     def execute_unconditional_jump_to_address(self):
@@ -349,19 +354,40 @@ class Instruction:
         return
 
     def execute_jump_and_save_return_address(self):
-        # TODO
+        # R3 <- PC+1;
+        self.cpu.gpr3.setvalue(self.cpu.pc.get_value()+1)
+        # PC <- EA
+        self.cpu.pc.set_value(self.load())
+        # R0 should contain pointer to arguments
+        # Argument list should end with –1 (all 1s) value
         return
 
     def execute_return_from_subroutine(self):
-        # TODO
+        # Return From Subroutine w/ return code as Immed portion (optional) 
+        # stored in the instruction’s address field. 
+        # TODO R0 <- Immed
+        # PC <- c(R3)
+        self.cpu.pc.set_value(self.cpu.gpr3.get_value())
         return
 
     def execute_subtract_one_and_branch(self):
-        # TODO
+        # r <- c(r) – 1
+        self.set_value_gpr(self.get_value_gpr - 1)
+        # if c(r) > 0  
+        if self.get_value_gpr > 0:
+            # PC <- EA; 
+            self.cpu.pc.set_value(self.load())
+        else:
+            self.cpu.pc.increment_pc()
         return
 
     def execute_jump_greater_than_or_equal_to(self):
-        # TODO
+        # if c(r) >= 0
+        if self.get_value_gpr >= 0:
+            # PC <- EA 
+            self.cpu.pc.set_value(self.load())
+        else:
+            self.cpu.pc.increment_pc()
         return
 
     # transfer instruction helper functions
@@ -375,8 +401,25 @@ class Instruction:
             return self.cpu.gpr2.get_value()
         else:
             return self.cpu.gpr3.get_value()
+    
+    def set_value_gpr(self,value):
+        gpr_index = self.get_index_gpr()
+        if gpr_index == 0:
+            return self.cpu.gpr0.set_value(value)
+        elif gpr_index == 1:
+            return self.cpu.gpr1.set_value(value)
+        elif gpr_index == 2:
+            return self.cpu.gpr2.set_value(value)
+        else:
+            return self.cpu.gpr3.set_value(value)
 
-    def get_cc_bit(self):
-
-
+    def get_value_cc_bit(self,cc_bit):
+        if cc_bit == 0:
+            return self.cpu.cc.get_overflow_bit()
+        elif cc_bit == 1:
+            return self.cpu.cc.get_underflow_bit()
+        elif cc_bit == 2:
+            return self.cpu.cc.get_divzero_bit()
+        else:
+            return self.cpu.cc.get_equalornot_bit()
 
