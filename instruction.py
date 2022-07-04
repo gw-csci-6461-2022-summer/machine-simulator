@@ -323,24 +323,29 @@ class Instruction:
     def execute_jump_if_zero(self):
         # if c(r) = 0 
         if self.get_value_gpr() == 0:
-            # then PC <- EA
-                self.cpu.pc.set_value(self.load())
-        # else PC <- PC+1
-        else: 
-            self.cpu.pc.increment_pc()
-
+            #PC <- EA
+            self.cpu.pc.set_value(self.load())
         return
 
     def execute_jump_if_not_equal(self):
-        # TODO
+        # if c(r) != 0 
+        if self.get_value_gpr() != 0:
+            #PC <- EA
+            self.cpu.pc.set_value(self.load())
         return
 
     def execute_jump_if_condition_code(self):
-        # TODO
+        # cc takes values 0, 1, 2, 3 as above 
+        # and specifies the bit in the Condition Code Register to check
+        # if cc bit  = 1
+        if self.get_cc_bit() == 1:
+            # PC <- EA
+            self.cpu.pc.set_value(self.load())
         return
 
     def execute_unconditional_jump_to_address(self):
-        # TODO
+        # PC <- EA
+        self.cpu.pc.set_value(self.load())
         return
 
     def execute_jump_and_save_return_address(self):
@@ -370,6 +375,8 @@ class Instruction:
             return self.cpu.gpr2.get_value()
         else:
             return self.cpu.gpr3.get_value()
+
+    def get_cc_bit(self):
 
 
 
