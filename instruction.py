@@ -304,20 +304,20 @@ class Instruction:
         # TODO : This is needed for caching. read data from MBR (do we display this anywhere other than MBR?)
         return
 
-    '''You need instrcution and memory adress
-    Load MBR to see entire instruction in MBR
-    MBR shows instruction as binary string
-    Load MAR with addess
-    Instruction from MBR will be loaded in MAR
-    MAR incremented by 1
+        '''You need instrcution and memory adress
+        Load MBR to see entire instruction in MBR
+        MBR shows instruction as binary string
+        Load MAR with addess
+        Instruction from MBR will be loaded in MAR
+        MAR incremented by 1
 
-    2 ways to load into memory (init and LD)
+        2 ways to load into memory (init and LD)
 
-    After loading into memory 
-    we assign to PC the first address and increase pc by 1
-    load PCto run 
-    after that we run single step - execute, copy instruction to IR  and increase
-    it will put values in MAR and MBR'''
+        After loading into memory 
+        we assign to PC the first address and increase pc by 1
+        load PC to run 
+        after that we run single step - execute, copy instruction to IR  and increase
+        it will put values in MAR and MBR'''
     
     # transfer instructions
     def execute_jump_if_zero(self):
