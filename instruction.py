@@ -148,6 +148,7 @@ class Instruction:
         # self.cpu.mbr.set_value(self.memory.get_memory_value(self.cpu.mar.get_value()))
         print('value read from memory:',self.memory.get_memory_value(self.cpu.mar.get_value()))
         # read from cache at location eqaul to value at MAR
+        print('value read from cache:',self.cache.get_word(self.cpu.mar.get_value()))
         self.cpu.mbr.set_value(self.cache.get_word(self.cpu.mar.get_value()))
         
         # for LDR, load value from mbr into target GPR
@@ -175,7 +176,8 @@ class Instruction:
         print('value set in mar',self.cpu.mar.get_value())
         
         # read from memory at location equal value at MAR
-        self.cpu.mbr.set_value(self.cpu.mar.get_value())
+        # self.cpu.mbr.set_value(self.cpu.mar.get_value())
+        self.cpu.mbr.set_value(self.cache.get_word(self.cpu.mar.get_value()))
         print('value read from memory:',self.memory.get_memory_value(self.cpu.mar.get_value()))
         
         # for LDR, load value from EA into target GPR
@@ -267,6 +269,7 @@ class Instruction:
         
         # read from memory at location equal value at MAR
         self.cpu.mbr.set_value(value)
+        self.cache.set_word(effective_address, self.MBR.get_val())
         print(self.cpu.mbr.get_value())
         
         # read from memory at location equal value at MAR
@@ -296,7 +299,9 @@ class Instruction:
         print('value set in mar',self.cpu.mar.get_value())
         
         # read from memory at location equal value at MAR
-        self.cpu.mbr.set_value(self.memory.get_memory_value(self.cpu.mar.get_value()))
+        # fetch from cache(self.MAR.get_val())
+        self.cpu.mbr.set_value(self.cache.get_word(self.cpu.mar.get_value()))
+        # self.cpu.mbr.set_value(self.memory.get_memory_value(self.cpu.mar.get_value()))
         print('value read from memory:',self.memory.get_memory_value(self.cpu.mar.get_value()))
 
         # for SMR, load value from mbr into target GPR
