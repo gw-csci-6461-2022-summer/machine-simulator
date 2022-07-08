@@ -1,24 +1,14 @@
-from dis import Instruction
-from msilib.schema import Class
-from this import s
-from tkinter import *
 import tkinter as tk
+import sys
+from dis import Instruction
+from tkinter import *
 from tkinter import filedialog
 from tkinter.ttk import Separator 
-from cpu import CPU
-import sys
+
+#from cpu import CPU
+
 sys.path.insert(0, './memory')
-from memory import Memory 
-
-
-# make instance of CPU
-cpu = CPU()
-def UploadFile(event=None):
-    filename = filedialog.askopenfilename()
-    print('Selected:', filename)
-    
-    # TODO : here we call functions to parse the file and init the machine
-    CPU.load_program(cpu, filename)
+#from memory import Memory 
 
 window = Tk()
 window.configure(background='#97ecf7')
@@ -27,6 +17,14 @@ window.title("Machine Simulator")
 # setting layout of main window
 window.grid_columnconfigure(2,weight=1)
 window.grid_rowconfigure(3,weight=1)
+
+# bit array to be represented with the checkboxes
+def bitToCheckbox(boxArray, bitArray):
+  for i in range(len(boxArray)):
+    if bitArray[i] == '1':
+      boxArray[i].set(1)
+    else:
+      boxArray[i].set(0)
 
 # create register frame and place it
 registersGPRFrame = tk.Frame(window, bg="#97ecf7")
@@ -41,7 +39,8 @@ gpr0 = []
 for i in range (1,17):
   gpr0.append(IntVar())
   tk.Checkbutton(registersGPRFrame, text='', variable=gpr0[i-1], bg="#97ecf7").grid(row=0,column=i)
-gpr0_LD = tk.Button(registersGPRFrame, text = "LD", command=Instruction_load.button_click(buttons) ,fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7").grid(row=0,column=17)
+gpr0_LD = tk.Button(registersGPRFrame, text = "LD", fg = "green", padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7").grid(row=0,column=17)
+# gpr0_LD = tk.Button(registersGPRFrame, text = "LD", fg = "green", command=lambda: bitToCheckbox(gpr0, "1111100000101010010001010"), padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7").grid(row=0,column=17)
 
 gpr1_btn = tk.Label(registersGPRFrame, text = "GPR 1", fg = "green",padx=5,pady=5,relief=tk.RAISED)
 gpr1_btn.grid(row=1,column=0)
@@ -103,44 +102,66 @@ otherFrame = tk.Frame(window, bg="#97ecf7")
 otherFrame.grid(row=0,column=2)
 otherFrame.grid_columnconfigure(4, weight=1, minsize=50)
 
+def mar_pc_Load(arr):
+  bits = ""
+  for i in range(4, 16):
+    if str(buttons[i].cget("bg")) == "blue":
+      colorChange(i)
+      bits += '1'
+    else:
+      bits += '0'
+  print(bits)
+  bitToCheckbox(arr, bits)
+  
+def mbrLoad():
+  bits = ""
+  for i in range(0, 16):
+    if str(buttons[i].cget("bg")) == "blue":
+      colorChange(i)
+      bits += '1'
+    else:
+      bits += '0'
+  print(bits)
+  bitToCheckbox(mbr, bits)
+
 # label for for PC, MAR, MBR, IR, MFR, Privileged
 pc_btn = tk.Label(otherFrame, text = "PC", fg = "blue",width=6,relief=tk.RAISED,justify='right')
 pc_btn.grid(row=1,column=22)
-pc = [12]
+pc = []
 for i in range (23,35):
   pc.append(IntVar())
-  tk.Checkbutton(otherFrame, text='', variable=pc[i-22], bg="#97ecf7").grid(row=1,column=i)
-pc_LD= tk.Button(otherFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7").grid(row=1,column=35)
+  tk.Checkbutton(otherFrame, text='', variable=pc[i-23], bg="#97ecf7").grid(row=1,column=i)
+pc_LD= tk.Button(otherFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7", command=lambda: mar_pc_Load(pc)).grid(row=1,column=35)
 
 mar_btn = tk.Label(otherFrame, text = "MAR", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
 mar_btn.grid(row=2,column=22)
-mar = [12]
+mar = []
 for i in range (23,35):
   mar.append(IntVar())
-  tk.Checkbutton(otherFrame, text='', variable=mar[i-22], bg="#97ecf7").grid(row=2,column=i)
-mar_LD = tk.Button(otherFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7").grid(row=2,column=35)
+  tk.Checkbutton(otherFrame, text='', variable=mar[i-23], bg="#97ecf7").grid(row=2,column=i)
+mar_LD = tk.Button(otherFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7", command=lambda: mar_pc_Load(mar)).grid(row=2,column=35)
 
 mbr_btn = tk.Label(otherFrame, text = "MBR", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
 mbr_btn.grid(row=3,column=18)
-mbr = [16]
+mbr = []
 for i in range (19,35):
   mbr.append(IntVar())
-  tk.Checkbutton(otherFrame, text='', variable=mbr[i-18], bg="#97ecf7").grid(row=3,column=i)
-mbr_LD = tk.Button(otherFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7").grid(row=3,column=35)
+  tk.Checkbutton(otherFrame, text='', variable=mbr[i-19], bg="#97ecf7").grid(row=3,column=i)
+mbr_LD = tk.Button(otherFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7", command=lambda: mbrLoad()).grid(row=3,column=35)
 
 ir_btn = tk.Label(otherFrame, text = "IR", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
 ir_btn.grid(row=4,column=18)
-ir = [16]
+ir = []
 for i in range (19,35):
   ir.append(IntVar())
-  tk.Checkbutton(otherFrame, text='', variable=ir[i-18], bg="#97ecf7").grid(row=4,column=i)
+  tk.Checkbutton(otherFrame, text='', variable=ir[i-19], bg="#97ecf7").grid(row=4,column=i)
 
 mfr_btn = tk.Label(otherFrame, text = "MFR", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
 mfr_btn.grid(row=5,column=30)
-mfr = [4]
+mfr = []
 for i in range (31,35):
   mfr.append(IntVar())
-  tk.Checkbutton(otherFrame, text='', variable=mfr[i-30], bg="#97ecf7").grid(row=5,column=i)
+  tk.Checkbutton(otherFrame, text='', variable=mfr[i-31], bg="#97ecf7").grid(row=5,column=i)
 
 privileged_btn = tk.Label(otherFrame, text = "Privileged", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
 privileged_btn.grid(row=6,column=33)
@@ -154,8 +175,9 @@ buttonFrame.grid_columnconfigure(4, weight=7, minsize=100)
 store_btn = tk.Button(buttonFrame, text = "Store", fg = "green",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=20,column=0)
 store_plus_btn = tk.Button(buttonFrame, text = "Store+", fg = "green",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=20,column=1)
 load_btn = tk.Button(buttonFrame, text = "Load", fg = "green",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=20,column=2)
-init_btn = tk.Button(buttonFrame, text = "Init", fg = "red",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=UploadFile).grid(row=20,column=3)
+#init_btn = tk.Button(buttonFrame, text = "Init", fg = "red",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7", command=UploadFile).grid(row=20,column=3)
 
+# creating Instruction Buttons
 InstructionFrame = tk.Frame(window, bg="#97ecf7")
 InstructionFrame.grid(row=5,column=0)
 def colorChange(button):
@@ -181,6 +203,7 @@ Label(InstructionFrame, text = "IXR", justify="right").place(relx = 0.6, rely = 
 Label(InstructionFrame, text = "I", justify="right").place(relx = 0.68, rely = 0.1, anchor = 'center')
 Label(InstructionFrame, text = "Address", justify="right").place(relx = 0.85, rely = 0.1, anchor = 'center')
 
+# SS button, Run button, Halt checkbutton and Run checkbutton created
 runFrame = tk.Frame(window, bg="#97ecf7")
 runFrame.grid(row=4,column=1)
 SS_btn = tk.Button(runFrame, text = "SS", fg = "black",padx=8,pady=8,relief=tk.RAISED, bg="#97ecf7").grid(row=0,column=0)
