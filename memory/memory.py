@@ -1,6 +1,6 @@
 # defining class memory 
 import sys
-sys.path.append('./machine-simulator')
+sys.path.insert(0, './')
 import helper_functions
 class Memory:
     
@@ -49,4 +49,4 @@ class Memory:
                 #     self.instructions[addr] = val
                 # else:
                 #     self.data[addr] = val
-                self.words[addr] = val
+                self.mem[addr] = val

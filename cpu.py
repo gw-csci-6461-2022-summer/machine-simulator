@@ -3,6 +3,7 @@ sys.path.insert(0, './memory')
 sys.path.insert(0, './Registers')
 sys.path.insert(0, './decoder')
 from memory import Memory 
+from cache import Cache
 from instruction import Instruction
 import helper_functions
 from Registers.TemplateRegister import Register
@@ -33,6 +34,9 @@ class CPU:
        
         # initialize memory with 2048 words
         self.memory = Memory(2048)
+
+        #initialize cache using the memory
+        self.cache = Cache(self.memory)
         
         # no input program loaded yet
         self.is_loaded = 0
@@ -132,6 +136,8 @@ class CPU:
             self.mbr.set_value(0)
             
             self.ir.set_value(0)
+
+            self.cache.clear_cache()
         
         return 
     

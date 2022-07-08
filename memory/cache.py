@@ -1,6 +1,5 @@
 import sys
-sys.path.insert(0, './memory')
-sys.path.append('./machine-simulator')
+sys.path.insert(0, './')
 from memory import Memory
 import helper_functions
 
@@ -48,8 +47,8 @@ class Cache:
         #get block from main memory
         block_num = addr // self.block_size
         start = block_num * self.block_size
-        end = min(start + self.block_size, len(self.mem.words))
-        block = [(a % self.block_size,self.mem.words[a]) for a in range(start,end)]
+        end = min(start + self.block_size, len(self.mem.mem))
+        block = [(a % self.block_size,self.mem.mem[a]) for a in range(start,end)]
         self.lines.append((tag,block))
         return block[addr % self.block_size][1]
 
@@ -73,7 +72,7 @@ class Cache:
                         block  = self.lines[i][1]
                         block[j] = (a,new_word)
                         #write to main mem
-                        self.mem.words[addr] = new_word
+                        self.mem.mem[addr] = new_word
                         return
 
         #Write no-allocate
@@ -170,8 +169,9 @@ class Cache:
 
 def main():
    mem = Memory(2048)
-   mem.read_mem('IPL.txt')
-   print(mem.words[16])
+   mem.read_mem('./memory/IPL.txt')
+   print("number of mem words:")
+   print(mem.mem[16])
    c = Cache(mem)
 
    #get word test

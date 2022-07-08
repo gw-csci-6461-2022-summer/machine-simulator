@@ -41,7 +41,8 @@ gpr0 = []
 for i in range (1,17):
   gpr0.append(IntVar())
   tk.Checkbutton(registersGPRFrame, text='', variable=gpr0[i-1], bg="#97ecf7").grid(row=0,column=i)
-gpr0_LD = tk.Button(registersGPRFrame, text = "LD", command=Instruction_load.button_click(buttons) ,fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7").grid(row=0,column=17)
+gpr0_LD = tk.Button(registersGPRFrame, text = "LD" ,fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7").grid(row=0,column=17)
+# command=Instruction_load.button_click(buttons),
 
 gpr1_btn = tk.Label(registersGPRFrame, text = "GPR 1", fg = "green",padx=5,pady=5,relief=tk.RAISED)
 gpr1_btn.grid(row=1,column=0)
