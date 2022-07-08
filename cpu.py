@@ -108,7 +108,7 @@ class CPU:
         self.ir.set_value(self.mbr.get_value())
         print("IR:", self.ir.get_value())
         # decode 
-        inst = Instruction(self, self.memory)
+        inst = Instruction(self, self.memory, self.cache)
         inst.instruction_value = helper_functions.decimal_to_bit_array_unsigned(self.ir.get_value(), self.ir.get_register_size())
         inst.split_instruction()
         opcode = inst.get_opcode()

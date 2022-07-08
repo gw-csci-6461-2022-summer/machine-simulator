@@ -4,6 +4,7 @@
 3-  use setters to set the values that are read in object instruction 
 4 - use getters the read value form object instruction '''
 
+from functools import cache
 import sys
 sys.path.insert(0, './memory')
 sys.path.insert(0, './Registers')
@@ -16,7 +17,7 @@ from Registers.mar import mar
 
 class Instruction:
     # ctor
-    def __init__(self, cpu, memory):
+    def __init__(self, cpu, memory, cache):
         self.instruction_value = '0' * 16 
         self.opcode = []
         self.index_gpr = []
@@ -24,6 +25,7 @@ class Instruction:
         self.indirect_addressing = []
         self.address = []
         self.memory = memory
+        self.cache = cache
         self.cpu = cpu
 
     # figuring out the string that corresponds to every instruction attribute 
@@ -146,7 +148,7 @@ class Instruction:
         # self.cpu.mbr.set_value(self.memory.get_memory_value(self.cpu.mar.get_value()))
         print('value read from memory:',self.memory.get_memory_value(self.cpu.mar.get_value()))
         # read from cache at location eqaul to value at MAR
-        self.cpu.mbr.set_value(self.Cache.get_word(self.cpu.mar.get_value()))
+        self.cpu.mbr.set_value(self.cache.get_word(self.cpu.mar.get_value()))
         
         # for LDR, load value from mbr into target GPR
         gpr_index = self.get_index_gpr()
