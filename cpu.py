@@ -18,7 +18,7 @@ from Registers.instructionRegister import instructionregsiter
 class CPU:
     def __init__(self):
         # init registers. Note that gpr and ixr have register number attribute starting from zero
-        self.pc = pc('pc',12, 0)
+        self.pc = pc('pc',12,0)
         self.gpr0= gpr('gpr', 16, 0,0)
         self.gpr1= gpr('gpr',16,0,1)
         self.gpr2= gpr('gpr',16,0,2)
@@ -26,6 +26,7 @@ class CPU:
         self.ixr1= indexRegister('ixr',16,0,1)
         self.ixr2= indexRegister('ixr',16,0,2)
         self.ixr3= indexRegister('ixr',16,0,3)
+        self.pc = pc('pc',12,0)
         self.mar= mar('mar',12,0)
         self.mbr= mbr('mbr',4,0)
         self.mfr = mfr('mfr',4,0)
@@ -43,6 +44,9 @@ class CPU:
     def load_program(self,filename):
         # reset memory first
         self.memory.reset_memory()
+        
+        # start pc at 1
+        self.pc.set_value(0)
         
         # default: load input program beginning at default mem location 10
         file = open(filename, 'r')
@@ -91,8 +95,7 @@ class CPU:
         print(self.pc.get_value())
         
         # increment pc
-        
-        print(self.pc.get_value())
+        self.pc.increment_pc()
         
         # load MBR with instruction/data from Memory[MAR]
         self.mbr.set_value(self.memory.get_memory_value(self.mar.get_value()))
@@ -114,7 +117,7 @@ class CPU:
         # print('converted opcode',int(opcode, base=2))
         # print('converted gpr',int(index_gpr, base=2))
         inst.decoding_instruction()
-
+        
         # reset registers if we're at end
         if self.pc.get_value() == ++self.memory.get_memory_size():
             self.pc.set_value(0)
