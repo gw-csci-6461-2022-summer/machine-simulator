@@ -4,7 +4,6 @@
 3-  use setters to set the values that are read in object instruction 
 4 - use getters the read value form object instruction '''
 
-from distutils.util import execute
 import sys
 sys.path.insert(0, './memory')
 sys.path.insert(0, './Registers')
@@ -95,6 +94,7 @@ class Instruction:
         elif self.opcode == 7:
             print ('Instrustion: SIR')
             return 7
+        
     def execute_halt(self):
         # stop running program
         self.cpu.HLT = 1
@@ -428,13 +428,7 @@ class Instruction:
         else:
             self.cpu.gpr3.set_value(self.cpu.mbr.get_value())
         
-        return   
-
-
-        
-
-    
-        
+        return  
 
 '''You need instrcution and memory adress
 Load MBR to see entire instruction in MBR
