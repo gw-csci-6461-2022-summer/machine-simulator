@@ -55,6 +55,4 @@ def binary_string_to_decimal(bin_string):
     return int(bin_string, 2)
 
 
-
-
-
+print(hex_to_decimal("0607"))
