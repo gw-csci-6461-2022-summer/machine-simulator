@@ -1,4 +1,7 @@
 # defining class memory 
+import sys
+sys.path.append('./machine-simulator')
+import helper_functions
 class Memory:
     
     # defining __init__() function to assign values to object properties 
@@ -29,3 +32,21 @@ class Memory:
     
     def get_mem(self):
       return self.mem
+
+    def read_mem(self, fileName):
+        with open(fileName, 'r') as f:
+            lines = f.readlines()
+            if len(lines) > self.size:
+                return 'Memory file too large'  # is this right? or should I only consider the valid instructions
+            for line in lines:
+                if line.startswith('#'):
+                    continue
+                addr, val = line.split(' ')[:2]
+                # convert hex to interger and store at this index, the value should be integer?
+                addr = helper_functions.hex_to_decimal(addr)
+                val = helper_functions.hex_to_decimal(val)
+                # if val >= 2**6: #we assumed the address space is the integer space
+                #     self.instructions[addr] = val
+                # else:
+                #     self.data[addr] = val
+                self.words[addr] = val
