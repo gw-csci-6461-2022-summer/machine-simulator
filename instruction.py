@@ -4,7 +4,6 @@
 3-  use setters to set the values that are read in object instruction 
 4 - use getters the read value form object instruction '''
 
-from distutils.util import execute
 import sys
 sys.path.insert(0, './memory')
 sys.path.insert(0, './Registers')
@@ -82,20 +81,7 @@ class Instruction:
             print ('Instruction: LDA')
             self.execute_loadA()
             return 3
-        elif self.opcode == 4:
-            print ('Instruction: AMR')
-            self.execute_amr()
-            return 4
-        elif self.opcode == 5:
-            print ('Instruction: SMR')
-            self.execute_smr
-            return 5
-        elif self.opcode == 6:
-            print ('Insturction: AIR')
-            return 6
-        elif self.opcode == 7:
-            print ('Instrustion: SIR')
-            return 7
+        
     def execute_halt(self):
         # stop running program
         self.cpu.HLT = 1
@@ -289,39 +275,6 @@ class Instruction:
         # TODO : This is needed for caching. read data from MBR (do we display this anywhere other than MBR?)
         return
 
-    def execute_amr(self):
-        print('testing AMR')
-        
-        # get effective address
-        ea_content = self.load()
-        print('testing load')
-        print('value of c(EA) :',ea_content)
-            
-        register_content = self.store()
-        print('value of C(r) :', register_content)
-
-        effective_address = ea_content + register_content
-        print(effective_address)
-
-        # Write address to MAR
-        self.cpu.mar.set_value(effective_address)
-        print('value set in mar',self.cpu.mar.get_value())
-        # read from memory at location equal value at MAR
-        self.cpu.mbr.set_value(self.memory.get_memory_value(self.cpu.mar.get_value()))
-        print('value read from memory:',self.memory.get_memory_value(self.cpu.mar.get_value()))
-
-        # for AMR, load value from mbr into target GPR
-        gpr_index = self.get_index_gpr()
-        if gpr_index == 0:
-            self.cpu.gpr0.set_value(self.cpu.mbr.get_value())
-        elif gpr_index == 1:
-            self.cpu.gpr1.set_value(self.cpu.mbr.get_value())
-        elif gpr_index == 2:
-            self.cpu.gpr2.set_value(self.cpu.mbr.get_value())
-        else:
-            self.cpu.gpr3.set_value(self.cpu.mbr.get_value())
-        
-        return
 
     def execute_smr(self):
         print('SMR')

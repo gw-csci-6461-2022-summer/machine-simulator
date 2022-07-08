@@ -7,5 +7,7 @@ class pc(Register):
         super().__init__('pc',12,value)
 
     def increment_pc(self):
-        self.value = self.value + 1
+        self.value = (self.get_value() + 1)
         return self.value
+
+
