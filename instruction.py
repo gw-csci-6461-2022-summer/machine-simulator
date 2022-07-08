@@ -10,6 +10,7 @@ sys.path.insert(0, './memory')
 sys.path.insert(0, './Registers')
 import helper_functions
 from memory import Memory
+from cache import Cache
 # import cpu
 from Registers.indexRegister import indexRegister
 from Registers.mar import mar
@@ -156,8 +157,10 @@ class Instruction:
         self.cpu.mar.set_value(effective_address)
         print('value set in mar',self.cpu.mar.get_value())
         # read from memory at location equal value at MAR
-        self.cpu.mbr.set_value(self.memory.get_memory_value(self.cpu.mar.get_value()))
+        # self.cpu.mbr.set_value(self.memory.get_memory_value(self.cpu.mar.get_value()))
         print('value read from memory:',self.memory.get_memory_value(self.cpu.mar.get_value()))
+        # read from cache at location eqaul to value at MAR
+        self.cpu.mbr.set_value(self.Cache.get_word(self.cpu.mar.get_value()))
         
         # for LDR, load value from mbr into target GPR
         gpr_index = self.get_index_gpr()
@@ -392,7 +395,7 @@ class Instruction:
         
         return
     
-    def execute_air(self):
+    def execute_sir(self):
         print('SIR')
 
         #get register content
