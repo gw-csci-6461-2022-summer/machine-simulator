@@ -1,7 +1,5 @@
 import sys
 sys.path.insert(0, './memory')
-from memory import Memory 
-import numpy as np
 
 # convert hex string to decimal number 
 def hex_to_decimal(value):
@@ -38,7 +36,20 @@ def decimal_to_bit_array_signed(value, size):
 # convert binary to decimal 
 def binary_to_decimal(value):
     value = str(value)
-    return int(value,2) 
+    return int(value) 
 
 def int_to_bytes(number: int) -> bytes:
     return number.to_bytes(length=(8 + (number + (number < 0)).bit_length()) // 8, byteorder='big', signed=True)
+
+def decimal_to_binary(dec, bit=16):
+    if bit == 16:
+        return '{0:016b}'.format(dec)
+    elif bit == 12:
+        return '{0:012b}'.format(dec)
+    elif bit == 4:
+        return '{0:004b}'.format(dec)
+    elif bit == 2:
+        return '{0:002b}'.format(dec)
+
+def binary_string_to_decimal(bin_string):
+    return int(bin_string, 2)

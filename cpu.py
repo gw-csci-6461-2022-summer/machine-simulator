@@ -3,6 +3,7 @@ sys.path.insert(0, './memory')
 sys.path.insert(0, './Registers')
 sys.path.insert(0, './decoder')
 from memory import Memory 
+from cache import Cache
 from instruction import Instruction
 import helper_functions
 from Registers.TemplateRegister import Register
@@ -35,6 +36,9 @@ class CPU:
        
         # initialize memory with 2048 words
         self.memory = Memory(2048)
+
+        #initialize cache using the memory
+        self.cache = Cache(self.memory)
         
         # no input program loaded yet
         self.is_loaded = 0
@@ -103,9 +107,9 @@ class CPU:
         # copy mbr to ir
         self.ir.set_value(self.mbr.get_value())
         print("IR:", self.ir.get_value())
-        
-        # instantiate instruction object
-        inst = Instruction(self, self.memory)
+
+        # decode 
+        inst = Instruction(self, self.memory, self.cache)
         inst.instruction_value = helper_functions.decimal_to_bit_array_unsigned(self.ir.get_value(), self.ir.get_register_size())
         
         # print instruction components
@@ -140,6 +144,8 @@ class CPU:
             self.mbr.set_value(0)
             
             self.ir.set_value(0)
+
+            self.cache.clear_cache()
         
         return 
     
