@@ -76,7 +76,7 @@ class Cache:
                         return
 
         #Write no-allocate
-        self.mem.words[addr] = new_word
+        self.mem.mem[addr] = new_word
     
     def clear_cache(self):
         self.lines = []

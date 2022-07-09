@@ -269,7 +269,7 @@ class Instruction:
         
         # read from memory at location equal value at MAR
         self.cpu.mbr.set_value(value)
-        self.cache.set_word(effective_address, self.MBR.get_val())
+        self.cache.set_word(effective_address, self.cpu.mbr.get_value())
         print(self.cpu.mbr.get_value())
         
         # read from memory at location equal value at MAR
@@ -377,7 +377,8 @@ class Instruction:
         print('value set in mar',self.cpu.mar.get_value())
         
         # read from memory at location equal value at MAR
-        self.cpu.mbr.set_value(self.memory.get_memory_value(self.cpu.mar.get_value()))
+        self.cpu.mbr.set_value(self.memory.get_memory_value(self.cache.get_word(self.cpu.mar.get_value())))
+        # self.cpu.mbr.set_value(self.memory.get_memory_value(self.cpu.mar.get_value()))
         print('value read from memory:',self.memory.get_memory_value(self.cpu.mar.get_value()))
 
         # for SMR, load value from mbr into target GPR
