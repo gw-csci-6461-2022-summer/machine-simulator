@@ -158,8 +158,34 @@ class Instruction:
         # TO DO 
         return
     
+    # c(rx) <- c(rx) AND c(ry)
     def execute_and(self):
-        # TO DO 
+        # rx 
+        gpr_index = self.get_rx()
+        print("RX", gpr_index)
+        rx_val = self.get_r_val(gpr_index)
+        if (isinstance(rx_val, str)):
+            rx_val = helper_functions.binary_to_decimal(rx_val)
+        
+        # ry 
+        gpry_index = self.get_ry()
+        print("RY", gpry_index)
+        ry_val = self.get_r_val(gpry_index)
+        if (isinstance(ry_val, str)):
+            ry_val = helper_functions.binary_to_decimal(ry_val)
+        
+        and_val = rx_val & ry_val
+        print("result of or", and_val)
+        
+        if gpr_index == 0:
+            self.cpu.gpr0.set_value(and_val)
+        elif gpr_index == 1:
+            self.cpu.gpr1.set_value(and_val)
+        elif gpr_index == 2:
+            self.cpu.gpr2.set_value(and_val)
+        else:
+            self.cpu.gpr3.set_value(and_val)
+        
         return
     
     # c(rx) <- c(rx) OR c(ry)
