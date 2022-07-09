@@ -122,6 +122,18 @@ class Instruction:
             print ('Instruction: NOT')
             self.execute_not()
             return 25
+        
+    def get_r_val(self, gpr_index): 
+        if gpr_index == 0:
+            value = self.cpu.gpr0.get_value()
+        elif gpr_index == 1:
+            value = self.cpu.gpr1.get_value()
+        elif gpr_index == 2:
+            value = self.cpu.gpr2.get_value()
+        else:
+            value = self.cpu.gpr3.get_value()
+        
+        return value
       
     # multiply register by register (c(rx) * c(ry))
     # rx must be 0 or 2; ry must 0 or 2      
@@ -150,8 +162,34 @@ class Instruction:
         # TO DO 
         return
     
+    # c(rx) <- c(rx) OR c(ry)
     def execute_orr(self):
-        # TO DO 
+        # rx 
+        gpr_index = self.get_rx()
+        print("RX", gpr_index)
+        rx_val = self.get_r_val(gpr_index)
+        if (isinstance(rx_val, str)):
+            rx_val = helper_functions.binary_to_decimal(rx_val)
+        
+        # ry 
+        gpry_index = self.get_ry()
+        print("RY", gpry_index)
+        ry_val = self.get_r_val(gpry_index)
+        if (isinstance(ry_val, str)):
+            ry_val = helper_functions.binary_to_decimal(ry_val)
+        
+        or_val = rx_val | ry_val
+        print("result of or", or_val)
+        
+        if gpr_index == 0:
+            self.cpu.gpr0.set_value(or_val)
+        elif gpr_index == 1:
+            self.cpu.gpr1.set_value(or_val)
+        elif gpr_index == 2:
+            self.cpu.gpr2.set_value(or_val)
+        else:
+            self.cpu.gpr3.set_value(or_val)
+        
         return
     
     # c(rx) <-- Logical NOT c(rx)
