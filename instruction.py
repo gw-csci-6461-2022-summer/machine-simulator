@@ -149,9 +149,50 @@ class Instruction:
             return
         
         # TO DO 
-        
+    
+    # rx, rx+1 <- c(rx) / c(ry) 
+    # rx & ry must be either 0 or 2
+    # rx contains quotient; rx+1 contains remainder
+    # if c(ry) = 0, set cc(3) to 1 (set DIVZERO flag)
     def execute_dvd(self):
-        # TO DO 
+        # rx 
+        gpr_index = self.get_rx()
+        print("RX", gpr_index)
+        rx_val = self.get_r_val(gpr_index)
+        if (isinstance(rx_val, str)):
+            rx_val = helper_functions.binary_to_decimal(rx_val)
+            
+        if (gpr_index != 0 or gpr_index != 2): 
+            print("invalid DVD inst")
+            return
+        
+        # ry 
+        gpry_index = self.get_ry()
+        print("RY", gpry_index)
+        ry_val = self.get_r_val(gpry_index)
+        if (isinstance(ry_val, str)):
+            ry_val = helper_functions.binary_to_decimal(ry_val)
+        
+        if (gpry_index != 0 or gpry_index != 2): 
+            print("invalid DVD inst")
+            return
+        
+        if ry_val == 0:
+            print("Divide by 0!")
+            # TO DO: set cc(3) to 1
+            return
+        
+        # get quotient 
+        q = rx_val // ry_val
+        remainder = rx_val % ry_val
+        
+        if gpr_index == 0:
+            self.cpu.gpr0.set_value(q)
+            self.cpu.gpr1.set_value(remainder)
+        elif gpr_index == 2:
+            self.cpu.gpr2.set_value(q)
+            self.cpu.gpr3.set_value(remainder)
+        
         return
     
     # if c(rx) = c(ry), set cc(4) to 1; else set cc(4) to 0
