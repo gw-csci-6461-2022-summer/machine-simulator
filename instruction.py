@@ -139,9 +139,55 @@ class Instruction:
     # rx must be 0 or 2; ry must 0 or 2      
     def execute_mlt(self):
         # if rx or ry not 0 or 2, don't do instruction 
+        # rx 
+        gpr_index = self.get_rx()
+        print("RX", gpr_index)
+        rx_val = self.get_r_val(gpr_index)
+        if (isinstance(rx_val, str)):
+            rx_val = helper_functions.binary_to_decimal(rx_val)
+            
+        if (gpr_index != 0 and gpr_index != 2): 
+            print("invalid MLT inst")
+            return
+        
+        # ry 
+        gpry_index = self.get_ry()
+        print("RY", gpry_index)
+        ry_val = self.get_r_val(gpry_index)
+        if (isinstance(ry_val, str)):
+            ry_val = helper_functions.binary_to_decimal(ry_val)
+        
+        if (gpry_index != 0 and gpry_index != 2): 
+            print("invalid MLT inst")
+            return
+        
+        print("RX val", rx_val)
+        print("RY val", ry_val)
+        
+        mlt_val = rx_val * ry_val
+        
+        mlt_val = bin(mlt_val)
+       
+        high_order_bits = mlt_val[:len(mlt_val)//2]
+        low_order_bits = mlt_val[len(mlt_val)//2:]
+        print(high_order_bits)
+        print(low_order_bits)
+        
+        high_order_bits = helper_functions.binary_to_decimal(high_order_bits[2:].zfill(16))
+        low_order_bits = helper_functions.binary_to_decimal(low_order_bits.zfill(16))
+        
+        print("high order:", high_order_bits)
+        print("low order:", low_order_bits)
+        
+        if gpr_index == 0:
+            self.cpu.gpr0.set_value(high_order_bits)
+            self.cpu.gpr1.set_value(low_order_bits)
+        elif gpr_index == 2:
+            self.cpu.gpr2.set_value(high_order_bits)
+            self.cpu.gpr3.set_value(low_order_bits)
         
         return
-        # TO DO 
+        
     
     # rx, rx+1 <- c(rx) / c(ry) 
     # rx & ry must be either 0 or 2
