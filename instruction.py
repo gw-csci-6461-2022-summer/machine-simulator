@@ -154,8 +154,28 @@ class Instruction:
         # TO DO 
         return
     
+    # if c(rx) = c(ry), set cc(4) to 1; else set cc(4) to 0
     def execute_trr(self):
-        # TO DO 
+        # rx 
+        gpr_index = self.get_rx()
+        print("RX", gpr_index)
+        rx_val = self.get_r_val(gpr_index)
+        if (isinstance(rx_val, str)):
+            rx_val = helper_functions.binary_to_decimal(rx_val)
+        
+        # ry 
+        gpry_index = self.get_ry()
+        print("RY", gpry_index)
+        ry_val = self.get_r_val(gpry_index)
+        if (isinstance(ry_val, str)):
+            ry_val = helper_functions.binary_to_decimal(ry_val)
+            
+        if rx_val == ry_val:
+            print("set cc(4) to 1")
+            # TO DO 
+        else:
+            print("set cc(4) to 0")
+            # TO DO
         return
     
     # c(rx) <- c(rx) AND c(ry)
