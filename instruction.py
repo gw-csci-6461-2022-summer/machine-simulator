@@ -167,12 +167,14 @@ class Instruction:
     def execute_loadR(self):
         # get effective address
         effective_address = self.load()
-        print('testing load')
         print('value of EA :',effective_address)
+        
         # TODO: check please - is this the rest of logic for load
+        
         # Write address to MAR
         self.cpu.mar.set_value(effective_address)
         print('value set in mar',self.cpu.mar.get_value())
+        
         # read from memory at location equal value at MAR
         self.cpu.mbr.set_value(self.memory.get_memory_value(self.cpu.mar.get_value()))
         print('value read from memory:',self.memory.get_memory_value(self.cpu.mar.get_value()))
@@ -188,7 +190,11 @@ class Instruction:
         else:
             self.cpu.gpr3.set_value(self.cpu.mbr.get_value())
             
-        # TODO : This is needed for caching. read data from MBR (do we display this anywhere other than MBR?)
+        # TODO: This is needed for caching. read data from MBR (do we display this anywhere other than MBR?)
+
+        self.cpu.pc.increment_pc()
+        print("PC:", self.cpu.pc.get_value())
+
         return
       
     def execute_loadA(self):
@@ -321,12 +327,15 @@ class Instruction:
     
     # transfer instructions
     def execute_jump_if_zero(self):
+        print("PC:", self.cpu.pc.get_value())
         # if c(r) = 0 
+        print(self.get_value_gpr())
         if self.get_value_gpr() == 0:
             #PC <- EA
             self.cpu.pc.set_value(self.load())
         else: 
             self.cpu.pc.increment_pc()
+        print("PC:", self.cpu.pc.get_value())
         return
 
     def execute_jump_if_not_equal(self):
@@ -391,6 +400,8 @@ class Instruction:
         return
 
     # transfer instruction helper functions
+
+    # get gpr value at instruction gpr index
     def get_value_gpr(self):
         gpr_index = self.get_index_gpr()
         if gpr_index == 0:
@@ -402,6 +413,7 @@ class Instruction:
         else:
             return self.cpu.gpr3.get_value()
     
+     # set gpr value at instruction gpr index
     def set_value_gpr(self,value):
         gpr_index = self.get_index_gpr()
         if gpr_index == 0:
@@ -413,7 +425,8 @@ class Instruction:
         else:
             return self.cpu.gpr3.set_value(value)
 
-    def get_value_cc_bit(self,cc_bit):
+    # get cc value at 
+    def get_value_cc(self,cc_bit):
         if cc_bit == 0:
             return self.cpu.cc.get_overflow_bit()
         elif cc_bit == 1:
