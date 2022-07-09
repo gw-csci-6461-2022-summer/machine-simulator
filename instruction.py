@@ -139,15 +139,8 @@ class Instruction:
     # rx must be 0 or 2; ry must 0 or 2      
     def execute_mlt(self):
         # if rx or ry not 0 or 2, don't do instruction 
-        rx = self.get_rx()
-        if (rx != 0 or rx != 2): 
-            print("invalid mult op!")
-            return
-        ry = self.get_ry()
-        if (ry != 0 or ry != 2): 
-            print("invalid mult op!")
-            return
         
+        return
         # TO DO 
     
     # rx, rx+1 <- c(rx) / c(ry) 
@@ -162,7 +155,7 @@ class Instruction:
         if (isinstance(rx_val, str)):
             rx_val = helper_functions.binary_to_decimal(rx_val)
             
-        if (gpr_index != 0 or gpr_index != 2): 
+        if (gpr_index != 0 and gpr_index != 2): 
             print("invalid DVD inst")
             return
         
@@ -173,7 +166,7 @@ class Instruction:
         if (isinstance(ry_val, str)):
             ry_val = helper_functions.binary_to_decimal(ry_val)
         
-        if (gpry_index != 0 or gpry_index != 2): 
+        if (gpry_index != 0 and gpry_index != 2): 
             print("invalid DVD inst")
             return
         
@@ -185,6 +178,9 @@ class Instruction:
         # get quotient 
         q = rx_val // ry_val
         remainder = rx_val % ry_val
+        
+        print("Quotient", q)
+        print("Remainder", remainder)
         
         if gpr_index == 0:
             self.cpu.gpr0.set_value(q)
