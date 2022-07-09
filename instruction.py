@@ -24,6 +24,8 @@ class Instruction:
         self.address = []
         self.memory = memory
         self.cpu = cpu
+        self.rx = []
+        self.ry = []
 
     # figuring out the string that corresponds to every instruction attribute 
     def split_instruction(self):
@@ -33,6 +35,22 @@ class Instruction:
         self.indirect_addressing = self.instruction_value[10]
         self.address = self.instruction_value[11:]
         return self.opcode, self.index_gpr,self.index_ixr, self.indirect_addressing, self.address
+    
+    # get rx for opcodes 20 - 25 (reg to reg ops) 
+    def get_rx(self):
+        self.rx = self.instruction_value[6:8]
+        if self.rx == str('00') : return 0 
+        elif self.rx == str('01') : return 1
+        elif self.rx == str('10') : return 2 
+        elif self.rx == str('11') : return 3
+    
+    # get ry for opcodes 20 - 25 (reg to reg ops) 
+    def get_ry(self):
+        self.ry = self.instruction_value[8:10]
+        if self.ry == str('00') : return 0 
+        elif self.ry == str('01') : return 1
+        elif self.ry == str('10') : return 2 
+        elif self.ry == str('11') : return 3
 
     # defining getters to access instruction attributes 
     def get_opcode(self):
@@ -80,6 +98,102 @@ class Instruction:
             print ('Instruction: LDA')
             self.execute_loadA()
             return 3
+        elif self.opcode == 20:
+            print ('Instruction: MLT')
+            self.execute_mlt()
+            return 20
+        elif self.opcode == 21:
+            print ('Instruction: DVD')
+            self.execute_dvd()
+            return 21
+        elif self.opcode == 22:
+            print ('Instruction: TRR')
+            self.execute_trr()
+            return 22
+        elif self.opcode == 23:
+            print ('Instruction: AND')
+            self.execute_and()
+            return 23
+        elif self.opcode == 24:
+            print ('Instruction: ORR')
+            self.execute_orr()
+            return 24
+        elif self.opcode == 25:
+            print ('Instruction: NOT')
+            self.execute_not()
+            return 25
+      
+    # multiply register by register (c(rx) * c(ry))
+    # rx must be 0 or 2; ry must 0 or 2      
+    def execute_mlt(self):
+        # if rx or ry not 0 or 2, don't do instruction 
+        rx = self.get_rx()
+        if (rx != 0 or rx != 2): 
+            print("invalid mult op!")
+            return
+        ry = self.get_ry()
+        if (ry != 0 or ry != 2): 
+            print("invalid mult op!")
+            return
+        
+        # TO DO 
+        
+    def execute_dvd(self):
+        # TO DO 
+        return
+    
+    def execute_trr(self):
+        # TO DO 
+        return
+    
+    def execute_and(self):
+        # TO DO 
+        return
+    
+    def execute_orr(self):
+        # TO DO 
+        return
+    
+    # c(rx) <-- Logical NOT c(rx)
+    def execute_not(self):
+        # rx 
+        gpr_index = self.get_rx()
+        print("Negating GPR", gpr_index)
+        
+        if gpr_index == 0:
+            rx = self.cpu.gpr0.get_value()
+            if (isinstance(rx, str)):
+                rx = helper_functions.binary_to_decimal(rx)
+            print(rx)
+            rx = rx ^ 0xFFFF
+            print(rx)
+            self.cpu.gpr0.set_value(rx)
+        elif gpr_index == 1:
+            rx = self.cpu.gpr1.get_value()
+            if (isinstance(rx, str)):
+                rx = helper_functions.binary_to_decimal(rx)
+            print(rx)
+            rx = rx ^ 0xFFFF
+            print(rx)
+            self.cpu.gpr1.set_value(rx)
+        elif gpr_index == 2:
+            rx = self.cpu.gpr2.get_value()
+            if (isinstance(rx, str)):
+                rx = helper_functions.binary_to_decimal(rx)
+            print(rx)
+            rx = rx ^ 0xFFFF
+            print(rx)
+            self.cpu.gpr2.set_value(rx)
+        else:
+            rx = self.cpu.gpr3.get_value()
+            if (isinstance(rx, str)):
+                rx = helper_functions.binary_to_decimal(rx)
+            print(rx)
+            rx = rx ^ 0xFFFF
+            print(rx)
+            self.cpu.gpr3.set_value(rx)
+        
+        return
         
     def execute_halt(self):
         # stop running program
