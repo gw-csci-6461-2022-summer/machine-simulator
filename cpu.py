@@ -9,6 +9,7 @@ import helper_functions
 from Registers.TemplateRegister import Register
 from Registers.indexRegister import indexRegister
 from Registers.pc import pc
+from Registers.cc import cc
 from Registers.mar import mar
 from Registers.gpr import gpr 
 from Registers.mbr import mbr 
@@ -20,6 +21,7 @@ class CPU:
     def __init__(self):
         # init registers. Note that gpr and ixr have register number attribute starting from zero
         self.pc = pc('pc',12,0)
+        self.cc = cc('cc',4,0)
         self.gpr0= gpr('gpr', 16, 0,0)
         self.gpr1= gpr('gpr',16,0,1)
         self.gpr2= gpr('gpr',16,0,2)
@@ -27,7 +29,6 @@ class CPU:
         self.ixr1= indexRegister('ixr',16,0,1)
         self.ixr2= indexRegister('ixr',16,0,2)
         self.ixr3= indexRegister('ixr',16,0,3)
-        self.pc = pc('pc',12,0)
         self.mar= mar('mar',12,0)
         self.mbr= mbr('mbr',4,0)
         self.mfr = mfr('mfr',4,0)
@@ -70,13 +71,11 @@ class CPU:
         helper_functions.print_memory_contents(self.memory)
         
     # "step" button clicked, step to next line of program and execute it 
-    def step_through(self):
-        print("stepping")
-        
-        # if user tries to execute 2048, don't let them we will get an error
-        # reset registers
+    def step_through(self):        
+        # reset registers when pc reaches 2048
         if self.pc.get_value() == 2048:
             self.pc.set_value(0)
+            self.cc.set_value(0)
             
             self.gpr0.set_value(0)
             self.gpr1.set_value(0)
@@ -92,39 +91,42 @@ class CPU:
             
             self.ir.set_value(0)
             return
-            
+
+        print("PC:", self.pc.get_value())
         
         # copy address from PC to MAR
         self.mar.set_value(self.pc.get_value())
-        print(self.pc.get_value())
-        
-        # increment pc
-        self.pc.increment_pc()
         
         # load MBR with instruction/data from Memory[MAR]
         self.mbr.set_value(self.memory.get_memory_value(self.mar.get_value()))
-        print("MBR", self.mbr.get_value())
+        print("MBR:", self.mbr.get_value())
+        
         # copy mbr to ir
         self.ir.set_value(self.mbr.get_value())
         print("IR:", self.ir.get_value())
+
         # decode 
         inst = Instruction(self, self.memory, self.cache)
         inst.instruction_value = helper_functions.decimal_to_bit_array_unsigned(self.ir.get_value(), self.ir.get_register_size())
-        inst.split_instruction()
-        opcode = inst.get_opcode()
-        index_gpr = inst.get_index_gpr()
+        
+        # print instruction components
         print('opcode:',inst.get_opcode())
         print('general purpose register:',inst.get_index_gpr())
         print('index register:',inst.get_index_ixr())
         print('indirect addressing:',inst.get_indirect_addressing())
         print('address: ',inst.get_address())
+        #opcode = inst.get_opcode()
+        #index_gpr = inst.get_index_gpr()
         # print('converted opcode',int(opcode, base=2))
         # print('converted gpr',int(index_gpr, base=2))
+        
+        #execute instruction
         inst.decoding_instruction()
         
         # reset registers if we're at end
         if self.pc.get_value() == ++self.memory.get_memory_size():
             self.pc.set_value(0)
+            self.cc.set_value(0)
             
             self.gpr0.set_value(0)
             self.gpr1.set_value(0)

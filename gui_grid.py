@@ -274,7 +274,7 @@ for i in range (1,17):
   tk.Checkbutton(indexFrame, text='', variable=ixr3[i-1], bg="#97ecf7").grid(row=7,column=i)
 ixr3_LD = tk.Button(indexFrame, text = "LD", fg = "green",padx=8,pady=5,relief=tk.RAISED, bg="#97ecf7", command=lambda: ld_ixr3(ixr3)).grid(row=7,column=17)
 
-# creating frame for PC, MAR, MBR, IR, MFR, Privileged 
+# creating frame for PC, MAR, MBR, IR, MFR, CC, Privileged 
 otherFrame = tk.Frame(window, bg="#97ecf7")
 otherFrame.grid(row=0,column=2)
 otherFrame.grid_columnconfigure(4, weight=1, minsize=50)
@@ -318,9 +318,16 @@ for i in range (31,35):
   mfr.append(IntVar())
   tk.Checkbutton(otherFrame, text='', variable=mfr[i-31], bg="#97ecf7").grid(row=5,column=i)
 
+cc_btn = tk.Label(otherFrame, text = "CC", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
+cc_btn.grid(row=6,column=30)
+cc = []
+for i in range (31,35):
+  cc.append(IntVar())
+  tk.Checkbutton(otherFrame, text='', variable=cc[i-31], bg="#97ecf7").grid(row=6,column=i)
+
 privileged_btn = tk.Label(otherFrame, text = "Privileged", fg = "blue",padx=5,pady=5,relief=tk.RAISED)
-privileged_btn.grid(row=6,column=33)
-priv_1 = tk.Checkbutton(otherFrame, text='', bg="#97ecf7").grid(row=6,column=34)
+privileged_btn.grid(row=7,column=33)
+priv_1 = tk.Checkbutton(otherFrame, text='', bg="#97ecf7").grid(row=7,column=34)
 
 # creating frame for Store, St+, Load, and Init buttons 
 buttonFrame = tk.Frame(window, bg="#97ecf7")

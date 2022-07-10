@@ -101,6 +101,38 @@ class Instruction:
             print ('Instruction: LDA')
             self.execute_loadA()
             return 3
+        elif self.opcode == 10:
+            print ('Instruction: JZ')
+            self.execute_jump_if_zero()
+            return 10
+        elif self.opcode == 11:
+            print ('Instruction: JNE')
+            self.execute_jump_if_not_equal()
+            return 11
+        elif self.opcode == 12:
+            print ('Instruction: JCC')
+            self.execute_jump_if_condition_code()
+            return 12
+        elif self.opcode == 13:
+            print ('Instruction: JMA')
+            self.execute_unconditional_jump_to_address()
+            return 13
+        elif self.opcode == 14:
+            print ('Instruction: JSR')
+            self.execute_jump_and_save_return_address()
+            return 14
+        elif self.opcode == 15:
+            print ('Instruction: RFS')
+            self.execute_return_from_subroutine()
+            return 15
+        elif self.opcode == 16:
+            print ('Instruction: SOB')
+            self.execute_subtract_one_and_branch()
+            return 16
+        elif self.opcode == 17:
+            print ('Instruction: JGE')
+            self.execute_jump_greater_than_or_equal_to()
+            return 17
         elif self.opcode == 20:
             print ('Instruction: MLT')
             self.execute_mlt()
@@ -364,7 +396,7 @@ class Instruction:
             self.cpu.gpr3.set_value(rx)
         
         return
-        
+
     def execute_halt(self):
         # stop running program
         self.cpu.HLT = 1
@@ -419,12 +451,14 @@ class Instruction:
     def execute_loadR(self):
         # get effective address
         effective_address = self.load()
-        print('testing load')
         print('value of EA :',effective_address)
+        
         # TODO: check please - is this the rest of logic for load
+        
         # Write address to MAR
         self.cpu.mar.set_value(effective_address)
         print('value set in mar',self.cpu.mar.get_value())
+        
         # read from memory at location equal value at MAR
         # self.cpu.mbr.set_value(self.memory.get_memory_value(self.cpu.mar.get_value()))
         print('value read from memory:',self.memory.get_memory_value(self.cpu.mar.get_value()))
@@ -443,7 +477,11 @@ class Instruction:
         else:
             self.cpu.gpr3.set_value(self.cpu.mbr.get_value())
             
-        # TODO : This is needed for caching. read data from MBR (do we display this anywhere other than MBR?)
+        # TODO: This is needed for caching. read data from MBR (do we display this anywhere other than MBR?)
+
+        self.cpu.pc.increment_pc()
+        print("PC:", self.cpu.pc.get_value())
+
         return
       
     def execute_loadA(self):
@@ -561,6 +599,15 @@ class Instruction:
         # TODO : This is needed for caching. read data from MBR (do we display this anywhere other than MBR?)
         return
 
+    '''
+        You need instrcution and memory adress
+        Load MBR to see entire instruction in MBR
+        MBR shows instruction as binary string
+        Load MAR with addess
+        Instruction from MBR will be loaded in MAR
+        MAR incremented by 1
+
+        2 ways to load into memory (init and LD)
 
     def execute_smr(self):
         print('SMR')
@@ -675,25 +722,133 @@ class Instruction:
         
         return   
 
+        After loading into memory 
+        we assign to PC the first address and increase pc by 1
+        load PC to run 
+        after that we run single step - execute, copy instruction to IR  and increase
+        it will put values in MAR and MBR
+    '''
+    
+    # transfer instructions
+    def execute_jump_if_zero(self):
+        print("PC:", self.cpu.pc.get_value())
+        # if c(r) = 0 
+        if self.get_value_gpr() == 0:
+            #PC <- EA
+            self.cpu.pc.set_value(self.load())
+        else: 
+            self.cpu.pc.increment_pc()
+        print("PC:", self.cpu.pc.get_value())
+        return
 
-        
+    def execute_jump_if_not_equal(self):
+        # if c(r) != 0 
+        if self.get_value_gpr() != 0:
+            #PC <- EA
+            self.cpu.pc.set_value(self.load())
+        else: 
+            self.cpu.pc.increment_pc()
+        print("PC:", self.cpu.pc.get_value())
+        return
+
+    def execute_jump_if_condition_code(self,cc_bit):
+        # specifies the bit in the condition code register to check
+        # if cc bit = 1
+        if self.get_value_cc_bit(cc_bit) == 1:
+            # PC <- EA
+            self.cpu.pc.set_value(self.load())
+        else: 
+            self.cpu.pc.increment_pc()
+        print("PC:", self.cpu.pc.get_value())
+        return
+
+    def execute_unconditional_jump_to_address(self):
+        # PC <- EA
+        self.cpu.pc.set_value(self.load())
+        print("PC:", self.cpu.pc.get_value())
+        return
+
+    def execute_jump_and_save_return_address(self):
+        # R3 <- PC+1;
+        self.cpu.gpr3.setvalue(self.cpu.pc.get_value()+1)
+        # PC <- EA
+        self.cpu.pc.set_value(self.load())
+        # R0 should contain pointer to arguments
+        # Argument list should end with –1 (all 1s) value
+        print("PC:", self.cpu.pc.get_value())
+        return
+
+    def execute_return_from_subroutine(self):
+        # Return From Subroutine w/ return code as Immed portion (optional) 
+        # stored in the instruction’s address field. 
+        # TODO R0 <- Immed
+        # PC <- c(R3)
+        self.cpu.pc.set_value(self.cpu.gpr3.get_value())
+        return
+
+    def execute_subtract_one_and_branch(self):
+        # r <- c(r) – 1
+        self.set_value_gpr(self.get_value_gpr - 1)
+        # if c(r) > 0  
+        if self.get_value_gpr > 0:
+            # PC <- EA; 
+            self.cpu.pc.set_value(self.load())
+        else:
+            self.cpu.pc.increment_pc()
+        print("PC:", self.cpu.pc.get_value())
+        return
+
+    def execute_jump_greater_than_or_equal_to(self):
+        # if c(r) >= 0
+        if self.get_value_gpr >= 0:
+            # PC <- EA 
+            self.cpu.pc.set_value(self.load())
+        else:
+            self.cpu.pc.increment_pc()
+        print("PC:", self.cpu.pc.get_value())
+        return
+
+    # transfer instruction helper functions
+
+    # get gpr value at instruction gpr index
+    def get_value_gpr(self):
+        gpr_index = self.get_index_gpr()
+        if gpr_index == 0:
+            print("GPR0:", self.cpu.gpr0.get_value())
+            return self.cpu.gpr0.get_value()
+        elif gpr_index == 1:
+            print("GPR1:", self.cpu.gpr1.get_value())
+            return self.cpu.gpr1.get_value()
+        elif gpr_index == 2:
+            print("GPR2:", self.cpu.gpr2.get_value())
+            return self.cpu.gpr2.get_value()
+        else:
+            print("GPR3: ", self.cpu.gpr3.get_value())
+            return self.cpu.gpr3.get_value()
 
     
-        
+     # set gpr value at instruction gpr index
+    def set_value_gpr(self,value):
+        gpr_index = self.get_index_gpr()
+        if gpr_index == 0:
+            return self.cpu.gpr0.set_value(value)
+        elif gpr_index == 1:
+            return self.cpu.gpr1.set_value(value)
+        elif gpr_index == 2:
+            return self.cpu.gpr2.set_value(value)
+        else:
+            return self.cpu.gpr3.set_value(value)
 
-'''You need instrcution and memory adress
-Load MBR to see entire instruction in MBR
-MBR shows instruction as binary string
-Load MAR with addess
-Instruction from MBR will be loaded in MAR
-MAR incremented by 1
-
-2 ways to load into memory (init and LD)
-
-After loading into memory 
-we assign to PC the first address and increase pc by 1
-load PCto run 
-after that we run single step - execute, copy instruction to IR  and increase
-it will put values in MAR and MBR'''
+    # get cc bit value
+    def get_value_cc(self,cc_bit):
+        if cc_bit == 0:
+            return self.cpu.cc.get_overflow_bit()
+        elif cc_bit == 1:
+            return self.cpu.cc.get_underflow_bit()
+        elif cc_bit == 2:
+            return self.cpu.cc.get_divzero_bit()
+        else:
+            return self.cpu.cc.get_equalornot_bit()
     
+    # TODO set cc bit value
 
