@@ -748,6 +748,7 @@ class Instruction:
             self.cpu.pc.set_value(self.load())
         else: 
             self.cpu.pc.increment_pc()
+        print("PC:", self.cpu.pc.get_value())
         return
 
     def execute_jump_if_condition_code(self,cc_bit):
@@ -758,11 +759,13 @@ class Instruction:
             self.cpu.pc.set_value(self.load())
         else: 
             self.cpu.pc.increment_pc()
+        print("PC:", self.cpu.pc.get_value())
         return
 
     def execute_unconditional_jump_to_address(self):
         # PC <- EA
         self.cpu.pc.set_value(self.load())
+        print("PC:", self.cpu.pc.get_value())
         return
 
     def execute_jump_and_save_return_address(self):
@@ -772,6 +775,7 @@ class Instruction:
         self.cpu.pc.set_value(self.load())
         # R0 should contain pointer to arguments
         # Argument list should end with –1 (all 1s) value
+        print("PC:", self.cpu.pc.get_value())
         return
 
     def execute_return_from_subroutine(self):
@@ -791,6 +795,7 @@ class Instruction:
             self.cpu.pc.set_value(self.load())
         else:
             self.cpu.pc.increment_pc()
+        print("PC:", self.cpu.pc.get_value())
         return
 
     def execute_jump_greater_than_or_equal_to(self):
@@ -800,6 +805,7 @@ class Instruction:
             self.cpu.pc.set_value(self.load())
         else:
             self.cpu.pc.increment_pc()
+        print("PC:", self.cpu.pc.get_value())
         return
 
     # transfer instruction helper functions
