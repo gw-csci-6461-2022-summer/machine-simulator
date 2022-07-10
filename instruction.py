@@ -733,7 +733,6 @@ class Instruction:
     def execute_jump_if_zero(self):
         print("PC:", self.cpu.pc.get_value())
         # if c(r) = 0 
-        print(self.get_value_gpr())
         if self.get_value_gpr() == 0:
             #PC <- EA
             self.cpu.pc.set_value(self.load())
@@ -809,13 +808,18 @@ class Instruction:
     def get_value_gpr(self):
         gpr_index = self.get_index_gpr()
         if gpr_index == 0:
+            print("GPR0:", self.cpu.gpr0.get_value())
             return self.cpu.gpr0.get_value()
         elif gpr_index == 1:
+            print("GPR1:", self.cpu.gpr1.get_value())
             return self.cpu.gpr1.get_value()
         elif gpr_index == 2:
+            print("GPR2:", self.cpu.gpr2.get_value())
             return self.cpu.gpr2.get_value()
         else:
+            print("GPR3: ", self.cpu.gpr3.get_value())
             return self.cpu.gpr3.get_value()
+
     
      # set gpr value at instruction gpr index
     def set_value_gpr(self,value):
@@ -829,7 +833,7 @@ class Instruction:
         else:
             return self.cpu.gpr3.set_value(value)
 
-    # get cc value at 
+    # get cc bit value
     def get_value_cc(self,cc_bit):
         if cc_bit == 0:
             return self.cpu.cc.get_overflow_bit()
@@ -839,4 +843,6 @@ class Instruction:
             return self.cpu.cc.get_divzero_bit()
         else:
             return self.cpu.cc.get_equalornot_bit()
+    
+    # TODO set cc bit value
 

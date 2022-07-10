@@ -97,9 +97,6 @@ class CPU:
         # copy address from PC to MAR
         self.mar.set_value(self.pc.get_value())
         
-        # increment pc
-        # self.pc.increment_pc()
-        
         # load MBR with instruction/data from Memory[MAR]
         self.mbr.set_value(self.memory.get_memory_value(self.mar.get_value()))
         print("MBR:", self.mbr.get_value())
